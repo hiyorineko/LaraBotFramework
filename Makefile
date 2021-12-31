@@ -1,3 +1,4 @@
+ARGS := $(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS))
 up:
 	docker compose up -d
 build:
@@ -129,3 +130,7 @@ ide-helper:
 	docker compose exec app php artisan ide-helper:generate
 	docker compose exec app php artisan ide-helper:meta
 	docker compose exec app php artisan ide-helper:models --nowrite
+artisan:
+	docker compose exec app php artisan $(ARGS)
+composer:
+	docker compose exec app composer $(ARGS)
