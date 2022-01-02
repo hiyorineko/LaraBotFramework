@@ -3,6 +3,7 @@
 namespace App\Infrastructures;
 
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 
 class MessagingApi
 {
@@ -46,16 +47,19 @@ class MessagingApi
     /**
      * Messageオブジェクト（text）を作成
      * @param $text
-     * @param $emojis
+     * @param array $emojis
      * @return array
      */
-    public static function createTextMessage($text, $emojis): array
+    public static function createTextMessage($text, array $emojis = []): array
     {
-        return array(
+        $message = array(
             'type' => 'text',
             'text' => $text,
-            'emojis' => $emojis
         );
+        if (!empty($emojis)) {
+            $message['emojis'] = $emojis;
+        }
+        return $message;
     }
 
     /**
@@ -167,85 +171,109 @@ class MessagingApi
         // TODO
     }
 
-    public static function reply($replyToken, $messages)
-    {
-        $header = array(
-            "Content-Type: application/json",
-            'Authorization: Bearer ' . config('messagingApi.channel_access_token'),
-        );
-
-        $context = stream_context_create(array(
-            "http" => array(
-                "method" => "POST",
-                "header" => implode("\r\n", $header),
-                "content" => json_encode([
-                    "replyToken" => $replyToken,
-                    "messages" => $messages,
-                ]),
-            ),
-        ));
-
-        $response = file_get_contents('https://api.line.me/v2/bot/message/reply', false, $context);
-        if (strpos($http_response_header[0], '200') === false) {
-            http_response_code(500);
-            error_log("Request failed: " . $response);
+    private static function execApi($curlOptions) {
+        $curl = curl_init();
+        curl_setopt_array($curl, $curlOptions);
+        $response = curl_exec($curl);
+        if (curl_getinfo($curl, CURLINFO_RESPONSE_CODE) != '200') {
+            Log::error($response);
         }
+        curl_close($curl);
     }
 
-    public static function push()
+    public static function reply($replyToken, $messages, $notificationDisabled = false)
     {
+        $header = array(
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . config('messagingApi.channel_access_token'),
+        );
+        $body = array(
+            'replyToken' => $replyToken,
+            'messages' => $messages,
+            'notificationDisabled' => $notificationDisabled
+        );
+        $options = array(CURLOPT_URL => 'https://api.line.me/v2/bot/message/reply',
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => $header,
+            CURLOPT_POSTFIELDS => json_encode($body));
+        self::execApi($options);
+    }
+
+    public static function push($to, $messages, $notificationDisabled = false, $retryKey = null)
+    {
+        $header = array(
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . config('messagingApi.channel_access_token'),
+        );
+        if (!$retryKey) {
+            $header['X-Line-Retry-Key'] = $retryKey;
+        }
+        $body = array(
+            'to' => $to,
+            'messages' => $messages,
+            'notificationDisabled' => $notificationDisabled
+        );
+        $options = array(CURLOPT_URL => 'https://api.line.me/v2/bot/message/push',
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => $header,
+            CURLOPT_POSTFIELDS => json_encode($body));
+        self::execApi($options);
     }
 
     public static function multicast()
     {
-
+        // TODO
     }
 
     public static function narrowcast()
     {
-
+        // TODO
     }
 
     public static function progressNarrowcast()
     {
-
+        // TODO
     }
 
     public static function broadcast()
     {
-
+        // TODO
     }
 
     public static function downloadContent()
     {
+        // TODO
     }
 
     public static function quota()
     {
+        // TODO
     }
 
     public static function quotaConsumption()
     {
-
+        // TODO
     }
 
     public static function deliveryReply()
     {
-
+        // TODO
     }
 
     public static function deliveryPush()
     {
-
+        // TODO
     }
 
     public static function deliveryMulticast()
     {
-
+        // TODO
     }
 
     public static function deliveryBroadcast()
     {
-
+        // TODO
     }
 }
