@@ -20,16 +20,16 @@ class CreateMessagingApiThingsScenarioResultsTable extends Migration
                 ->on('messaging_api_webhook_events')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->string('replyToken');
-            $table->string('thingsDeviceId');
-            $table->string('thingsResultScenarioId');
+            $table->string('replyToken')->nullable();
+            $table->string('thingsDeviceId')->nullable();
+            $table->string('thingsResultScenarioId')->nullable();
             $table->integer('thingsResultRevision');
             $table->timestamp('thingsResultStartTime');
             $table->timestamp('thingsResultEndTime');
-            $table->string('thingsResultResultCode');
-            $table->json('thingsResultActionResults');
-            $table->string('thingsResultBleNotificationPayload');
-            $table->string('thingsResultErrorReason');
+            $table->string('thingsResultResultCode')->nullable();
+            $table->json('thingsResultActionResults')->nullable();
+            $table->string('thingsResultBleNotificationPayload')->nullable();
+            $table->string('thingsResultErrorReason')->nullable();
         });
     }
 

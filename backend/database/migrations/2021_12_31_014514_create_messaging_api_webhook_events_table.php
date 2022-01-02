@@ -15,15 +15,15 @@ class CreateMessagingApiWebhookEventsTable extends Migration
     {
         Schema::create('messaging_api_webhook_events', function (Blueprint $table) {
             $table->id();
-            $table->string('destination');
+            $table->string('destination')->nullable();
 
             // 共通プロパティ
-            $table->string('mode');
-            $table->string('sourceType');
-            $table->string('userId');
-            $table->string('groupId');
-            $table->string('roomId');
-            $table->timestamp('createdAt');
+            $table->string('mode')->nullable();
+            $table->string('sourceType')->nullable();
+            $table->string('userId')->nullable();
+            $table->string('groupId')->nullable();
+            $table->string('roomId')->nullable();
+            $table->timestamp('createdAt')->nullable();
         });
     }
 

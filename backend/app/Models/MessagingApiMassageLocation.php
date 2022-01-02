@@ -10,13 +10,13 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class MessagingApiMassageLocation
- * 
- * @property int $message_id
+ *
+ * @property int $messageId
  * @property string $title
  * @property string $address
  * @property float $latitude
  * @property float $longitude
- * 
+ *
  * @property MessagingApiMassage $messaging_api_massage
  *
  * @package App\Models
@@ -28,13 +28,13 @@ class MessagingApiMassageLocation extends Model
 	public $timestamps = false;
 
 	protected $casts = [
-		'message_id' => 'int',
+		'messageId' => 'int',
 		'latitude' => 'float',
 		'longitude' => 'float'
 	];
 
 	protected $fillable = [
-		'message_id',
+		'messageId',
 		'title',
 		'address',
 		'latitude',
@@ -43,6 +43,6 @@ class MessagingApiMassageLocation extends Model
 
 	public function messaging_api_massage()
 	{
-		return $this->belongsTo(MessagingApiMassage::class, 'message_id');
+		return $this->belongsTo(MessagingApiMassage::class, 'messageId');
 	}
 }

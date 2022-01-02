@@ -20,8 +20,8 @@ class CreateMessagingApiMassageLocationsTable extends Migration
                 ->on('messaging_api_massages')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->string('title');
-            $table->string('address');
+            $table->string('title')->nullable();
+            $table->string('address')->nullable();
             $table->double('latitude', 9, 6);
             $table->double('longitude', 9, 6);
         });

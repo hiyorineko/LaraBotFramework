@@ -20,8 +20,8 @@ class CreateMessagingApiMemberLeftsTable extends Migration
                 ->on('messaging_api_webhook_events')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->json('members');
-            $table->string('replyToken');
+            $table->json('members')->nullable();
+            $table->string('replyToken')->nullable();
         });
     }
 

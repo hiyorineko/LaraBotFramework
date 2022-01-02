@@ -20,8 +20,8 @@ class CreateMessagingApiLinksTable extends Migration
                 ->on('messaging_api_webhook_events')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->string('result');
-            $table->string('nonce');
+            $table->string('result')->nullable();
+            $table->string('nonce')->nullable();
         });
     }
 

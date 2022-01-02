@@ -12,21 +12,21 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class MessagingApiWebhookEvent
- * 
+ *
  * @property int $id
  * @property string $destination
  * @property string $mode
- * @property string $source_type
- * @property string $user_id
- * @property string $group_id
- * @property string $room_id
+ * @property string $sourceType
+ * @property string $userId
+ * @property string $groupId
+ * @property string $roomId
  * @property Carbon $created_at
- * 
+ *
  * @property MessagingApiAccountLink $messaging_api_account_link
  * @property MessagingApiBeacon $messaging_api_beacon
  * @property MessagingApiFollow $messaging_api_follow
  * @property MessagingApiJoin $messaging_api_join
- * @property MessagingApiLeafe $messaging_api_leafe
+ * @property MessagingApiLeave $messaging_api_leave
  * @property MessagingApiLink $messaging_api_link
  * @property Collection|MessagingApiMassage[] $messaging_api_massages
  * @property MessagingApiMemberJoined $messaging_api_member_joined
@@ -49,10 +49,11 @@ class MessagingApiWebhookEvent extends Model
 	protected $fillable = [
 		'destination',
 		'mode',
-		'source_type',
-		'user_id',
-		'group_id',
-		'room_id'
+		'sourceType',
+		'userId',
+		'groupId',
+		'roomId',
+        'createdAt'
 	];
 
 	public function messaging_api_account_link()
@@ -77,7 +78,7 @@ class MessagingApiWebhookEvent extends Model
 
 	public function messaging_api_leafe()
 	{
-		return $this->hasOne(MessagingApiLeafe::class, 'webhookEventId');
+		return $this->hasOne(MessagingApiLeave::class, 'webhookEventId');
 	}
 
 	public function messaging_api_link()

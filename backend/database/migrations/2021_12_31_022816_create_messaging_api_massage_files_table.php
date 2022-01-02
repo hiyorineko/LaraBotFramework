@@ -23,8 +23,8 @@ class CreateMessagingApiMassageFilesTable extends Migration
             $table->integer('fileSize');
 
             // アプリケーション上の配置
-            $table->string('fileName');
-            $table->string('path');
+            $table->string('fileName')->nullable();
+            $table->string('path')->nullable();
         });
     }
 

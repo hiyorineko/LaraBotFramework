@@ -9,15 +9,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class MessagingApiLeafe
- * 
+ * Class MessagingApiLeave
+ *
  * @property int $webhookEventId
- * 
+ *
  * @property MessagingApiWebhookEvent $messaging_api_webhook_event
  *
  * @package App\Models
  */
-class MessagingApiLeafe extends Model
+class MessagingApiLeave extends Model
 {
 	protected $table = 'messaging_api_leaves';
 	public $incrementing = false;

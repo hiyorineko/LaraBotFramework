@@ -15,9 +15,9 @@ class CreateMessagingApiMassageTextsTable extends Migration
     {
         Schema::create('messaging_api_massage_text', function (Blueprint $table) {
             $table->unsignedBigInteger('messageId');
-            $table->text('text');
-            $table->json('emojis');
-            $table->json('mentions');
+            $table->text('text')->nullable();
+            $table->json('emojis')->nullable();
+            $table->json('mentions')->nullable();
             $table->foreign('messageId')
                 ->references('id')
                 ->on('messaging_api_massages')

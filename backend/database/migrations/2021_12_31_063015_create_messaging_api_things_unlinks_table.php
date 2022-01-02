@@ -20,8 +20,8 @@ class CreateMessagingApiThingsUnlinksTable extends Migration
                 ->on('messaging_api_webhook_events')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->string('replyToken');
-            $table->string('thingsDeviceId');
+            $table->string('replyToken')->nullable();
+            $table->string('thingsDeviceId')->nullable();
         });
     }
 

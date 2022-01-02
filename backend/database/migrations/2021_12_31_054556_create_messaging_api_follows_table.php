@@ -20,7 +20,7 @@ class CreateMessagingApiFollowsTable extends Migration
                 ->on('messaging_api_webhook_events')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->string('replyToken');
+            $table->string('replyToken')->nullable();
         });
     }
 

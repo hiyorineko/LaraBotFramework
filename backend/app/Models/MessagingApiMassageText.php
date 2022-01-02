@@ -10,12 +10,12 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class MessagingApiMassageText
- * 
- * @property int $message_id
+ *
+ * @property int $messageId
  * @property string $text
  * @property array $emojis
  * @property array $mentions
- * 
+ *
  * @property MessagingApiMassage $messaging_api_massage
  *
  * @package App\Models
@@ -27,13 +27,13 @@ class MessagingApiMassageText extends Model
 	public $timestamps = false;
 
 	protected $casts = [
-		'message_id' => 'int',
+		'messageId' => 'int',
 		'emojis' => 'json',
 		'mentions' => 'json'
 	];
 
 	protected $fillable = [
-		'message_id',
+		'messageId',
 		'text',
 		'emojis',
 		'mentions'
@@ -41,6 +41,6 @@ class MessagingApiMassageText extends Model
 
 	public function messaging_api_massage()
 	{
-		return $this->belongsTo(MessagingApiMassage::class, 'message_id');
+		return $this->belongsTo(MessagingApiMassage::class, 'messageId');
 	}
 }

@@ -20,10 +20,10 @@ class CreateMessagingApiBeaconsTable extends Migration
                 ->on('messaging_api_webhook_events')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->string('replyToken');
-            $table->string('beaconHwid');
-            $table->string('beaconType');
-            $table->string('beaconDm');
+            $table->string('replyToken')->nullable();
+            $table->string('beaconHwid')->nullable();
+            $table->string('beaconType')->nullable();
+            $table->string('beaconDm')->nullable();
         });
     }
 

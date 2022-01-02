@@ -9,41 +9,41 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class MessagingApiMassageStamp
- * 
- * @property int $message_id
- * @property string $package_id
- * @property string $sticker_id
- * @property string $sticker_resource_type
+ * Class MessagingApiMassageSticker
+ *
+ * @property int $messageId
+ * @property string $packageId
+ * @property string $stickerId
+ * @property string $stickerResourceType
  * @property array $keywords
  * @property string $text
- * 
+ *
  * @property MessagingApiMassage $messaging_api_massage
  *
  * @package App\Models
  */
-class MessagingApiMassageStamp extends Model
+class MessagingApiMassageSticker extends Model
 {
-	protected $table = 'messaging_api_massage_stamps';
+	protected $table = 'messaging_api_massage_stickers';
 	public $incrementing = false;
 	public $timestamps = false;
 
 	protected $casts = [
-		'message_id' => 'int',
+		'messageId' => 'int',
 		'keywords' => 'json'
 	];
 
 	protected $fillable = [
-		'message_id',
-		'package_id',
-		'sticker_id',
-		'sticker_resource_type',
+		'messageId',
+		'packageId',
+		'stickerId',
+		'stickerResourceType',
 		'keywords',
 		'text'
 	];
 
 	public function messaging_api_massage()
 	{
-		return $this->belongsTo(MessagingApiMassage::class, 'message_id');
+		return $this->belongsTo(MessagingApiMassage::class, 'messageId');
 	}
 }

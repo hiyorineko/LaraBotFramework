@@ -20,8 +20,8 @@ class CreateMessagingApiVideoPlayCompletesTable extends Migration
                 ->on('messaging_api_webhook_events')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->string('replyToken');
-            $table->string('trackingId');
+            $table->string('replyToken')->nullable();
+            $table->string('trackingId')->nullable();
         });
     }
 

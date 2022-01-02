@@ -11,17 +11,17 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class MessagingApiMassage
- * 
+ *
  * @property int $id
- * @property int $webhook_event_id
+ * @property int $webhookEventId
  * @property string $replyToken
- * 
+ *
  * @property MessagingApiWebhookEvent $messaging_api_webhook_event
  * @property MessagingApiMassageAudio $messaging_api_massage_audio
  * @property MessagingApiMassageFile $messaging_api_massage_file
  * @property Collection|MessagingApiMassageImage[] $messaging_api_massage_images
  * @property MessagingApiMassageLocation $messaging_api_massage_location
- * @property MessagingApiMassageStamp $messaging_api_massage_stamp
+ * @property MessagingApiMassageSticker $messaging_api_massage_stamp
  * @property MessagingApiMassageText $messaging_api_massage_text
  * @property MessagingApiMassageVideo $messaging_api_massage_video
  *
@@ -33,17 +33,17 @@ class MessagingApiMassage extends Model
 	public $timestamps = false;
 
 	protected $casts = [
-		'webhook_event_id' => 'int'
+		'webhookEventId' => 'int'
 	];
 
 	protected $fillable = [
-		'webhook_event_id',
+		'webhookEventId',
 		'replyToken'
 	];
 
 	public function messaging_api_webhook_event()
 	{
-		return $this->belongsTo(MessagingApiWebhookEvent::class, 'webhook_event_id');
+		return $this->belongsTo(MessagingApiWebhookEvent::class, 'webhookEventId');
 	}
 
 	public function messaging_api_massage_audio()
@@ -68,7 +68,7 @@ class MessagingApiMassage extends Model
 
 	public function messaging_api_massage_stamp()
 	{
-		return $this->hasOne(MessagingApiMassageStamp::class, 'message_id');
+		return $this->hasOne(MessagingApiMassageSticker::class, 'message_id');
 	}
 
 	public function messaging_api_massage_text()

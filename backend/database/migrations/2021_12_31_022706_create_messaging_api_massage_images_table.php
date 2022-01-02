@@ -20,17 +20,16 @@ class CreateMessagingApiMassageImagesTable extends Migration
                 ->on('messaging_api_massages')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->string("imageSetId");
+            $table->string('imageSetId')->nullable();
             $table->integer("imageSetIndex");
             $table->integer("imageSetTotal");
-            $table->string('type');
-            $table->primary('imageSetId');
-            $table->string('originalContentUrl');
-            $table->string('previewImageUrl');
+            $table->string('type')->nullable();
+            $table->string('originalContentUrl')->nullable();
+            $table->string('previewImageUrl')->nullable();
 
             // アプリケーション上の配置
-            $table->string('fileName');
-            $table->string('path');
+            $table->string('fileName')->nullable();
+            $table->string('path')->nullable();
         });
     }
 
