@@ -2,43 +2,43 @@
 
 namespace Tests\Unit\Http\Controllers\Api;
 
-use App\Http\Controllers\Api\MessagingApiController;
-use App\Models\MessagingApiAccountLink;
-use App\Models\MessagingApiBeacon;
-use App\Models\MessagingApiFollow;
-use App\Models\MessagingApiJoin;
-use App\Models\MessagingApiMassage;
-use App\Models\MessagingApiMassageAudio;
-use App\Models\MessagingApiMassageFile;
-use App\Models\MessagingApiMassageImage;
-use App\Models\MessagingApiMassageLocation;
-use App\Models\MessagingApiMassageSticker;
-use App\Models\MessagingApiMassageText;
-use App\Models\MessagingApiMassageVideo;
-use App\Models\MessagingApiMemberJoined;
-use App\Models\MessagingApiMemberLeft;
-use App\Models\MessagingApiPostback;
-use App\Models\MessagingApiThingsLink;
-use App\Models\MessagingApiThingsScenarioResult;
-use App\Models\MessagingApiThingsUnlink;
-use App\Models\MessagingApiUnsend;
-use App\Models\MessagingApiVideoPlayComplete;
-use App\Models\MessagingApiWebhookEvent;
+use App\Infrastructures\EloquentModels\MessagingApiAccountLink;
+use App\Infrastructures\EloquentModels\MessagingApiBeacon;
+use App\Infrastructures\EloquentModels\MessagingApiFollow;
+use App\Infrastructures\EloquentModels\MessagingApiJoin;
+use App\Infrastructures\EloquentModels\MessagingApiMassage;
+use App\Infrastructures\EloquentModels\MessagingApiMassageAudio;
+use App\Infrastructures\EloquentModels\MessagingApiMassageFile;
+use App\Infrastructures\EloquentModels\MessagingApiMassageImage;
+use App\Infrastructures\EloquentModels\MessagingApiMassageLocation;
+use App\Infrastructures\EloquentModels\MessagingApiMassageSticker;
+use App\Infrastructures\EloquentModels\MessagingApiMassageText;
+use App\Infrastructures\EloquentModels\MessagingApiMassageVideo;
+use App\Infrastructures\EloquentModels\MessagingApiMemberJoined;
+use App\Infrastructures\EloquentModels\MessagingApiMemberLeft;
+use App\Infrastructures\EloquentModels\MessagingApiPostback;
+use App\Infrastructures\EloquentModels\MessagingApiThingsLink;
+use App\Infrastructures\EloquentModels\MessagingApiThingsScenarioResult;
+use App\Infrastructures\EloquentModels\MessagingApiThingsUnlink;
+use App\Infrastructures\EloquentModels\MessagingApiUnsend;
+use App\Infrastructures\EloquentModels\MessagingApiVideoPlayComplete;
+use App\Infrastructures\EloquentModels\MessagingApiWebhookEvent;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Infrastructures\Repositories\MessagingApiWebhookEventRepository;
 use ReflectionClass;
 use ReflectionException;
 use Tests\TestCase;
 
-class MessagingApiControllerTest extends TestCase
+class MessagingApiWebhookEventRepositoryTest extends TestCase
 {
     use RefreshDatabase;
 
-    private MessagingApiController $controller;
+    private MessagingApiWebhookEventRepository $repository;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->controller = new MessagingApiController();
+        $this->repository = new MessagingApiWebhookEventRepository();
     }
 
     /**
@@ -89,10 +89,7 @@ class MessagingApiControllerTest extends TestCase
         );
 
         // 実行
-        $reflection = new ReflectionClass($this->controller);
-        $method = $reflection->getMethod('createEvents');
-        $method->setAccessible(true);
-        $events = $method->invoke($this->controller, $input);
+        $events = $this->repository->createEvents($input);
 
         // 検証
         $this->assertEquals($input['destination'], $events[0]->destination);
@@ -133,10 +130,10 @@ class MessagingApiControllerTest extends TestCase
         $input['message'] = $this->getEventDetailMessageTextInput();
 
         // 実行
-        $reflection = new ReflectionClass($this->controller);
+        $reflection = new ReflectionClass($this->repository);
         $method = $reflection->getMethod('setEventDetail');
         $method->setAccessible(true);
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $this->assertDatabaseHas('messaging_api_massages', ['webhookEventId' => $event->id]);
@@ -148,7 +145,7 @@ class MessagingApiControllerTest extends TestCase
         $input = $this->getEventDetailUnsendInput();
 
         // 実行
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $this->assertDatabaseHas('messaging_api_unsends', ['webhookEventId' => $event->id]);
@@ -160,7 +157,7 @@ class MessagingApiControllerTest extends TestCase
         $input = $this->getEventDetailFollowInput();
 
         // 実行
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $this->assertDatabaseHas('messaging_api_follows', ['webhookEventId' => $event->id]);
@@ -172,7 +169,7 @@ class MessagingApiControllerTest extends TestCase
         $input = $this->getEventDetailUnfollowInput();
 
         // 実行
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $this->assertDatabaseHas('messaging_api_unfollows', ['webhookEventId' => $event->id]);
@@ -184,7 +181,7 @@ class MessagingApiControllerTest extends TestCase
         $input = $this->getEventDetailJoinInput();
 
         // 実行
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $this->assertDatabaseHas('messaging_api_joins', ['webhookEventId' => $event->id]);
@@ -196,7 +193,7 @@ class MessagingApiControllerTest extends TestCase
         $input = $this->getEventDetailLeaveInput();
 
         // 実行
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $this->assertDatabaseHas('messaging_api_leaves', ['webhookEventId' => $event->id]);
@@ -208,7 +205,7 @@ class MessagingApiControllerTest extends TestCase
         $input = $this->getEventDetailMemberJoinedInput();
 
         // 実行
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $this->assertDatabaseHas('messaging_api_member_joineds', ['webhookEventId' => $event->id]);
@@ -220,7 +217,7 @@ class MessagingApiControllerTest extends TestCase
         $input = $this->getEventDetailMemberLeftInput();
 
         // 実行
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $this->assertDatabaseHas('messaging_api_member_lefts', ['webhookEventId' => $event->id]);
@@ -232,7 +229,7 @@ class MessagingApiControllerTest extends TestCase
         $input = $this->getEventDetailPostbackInput();
 
         // 実行
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $this->assertDatabaseHas('messaging_api_postbacks', ['webhookEventId' => $event->id]);
@@ -244,7 +241,7 @@ class MessagingApiControllerTest extends TestCase
         $input = $this->getEventDetailVideoPlayCompleteInput();
 
         // 実行
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $this->assertDatabaseHas('messaging_api_video_play_completes', ['webhookEventId' => $event->id]);
@@ -256,7 +253,7 @@ class MessagingApiControllerTest extends TestCase
         $input = $this->getEventDetailBeaconInput();
 
         // 実行
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $this->assertDatabaseHas('messaging_api_beacons', ['webhookEventId' => $event->id]);
@@ -268,7 +265,7 @@ class MessagingApiControllerTest extends TestCase
         $input = $this->getEventDetailAccountLinkInput();
 
         // 実行
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $this->assertDatabaseHas('messaging_api_account_links', ['webhookEventId' => $event->id]);
@@ -280,7 +277,7 @@ class MessagingApiControllerTest extends TestCase
         $input = $this->getEventDetailThingsInput();
 
         // 実行
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $this->assertDatabaseHas('messaging_api_things_links', ['webhookEventId' => $event->id]);
@@ -315,10 +312,10 @@ class MessagingApiControllerTest extends TestCase
         $input['message'] = $this->getEventDetailMessageTextInput();
 
         // 実行
-        $reflection = new ReflectionClass($this->controller);
+        $reflection = new ReflectionClass($this->repository);
         $method = $reflection->getMethod('setEventDetail');
         $method->setAccessible(true);
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $record = MessagingApiMassage::where(['webhookEventId' => $event->id])->first();
@@ -332,7 +329,7 @@ class MessagingApiControllerTest extends TestCase
         $input['message'] = $this->getEventDetailMessageImageInput();
 
         // 実行
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $record = MessagingApiMassage::where(['webhookEventId' => $event->id])->first();
@@ -347,7 +344,7 @@ class MessagingApiControllerTest extends TestCase
         $input['message'] = $this->getEventDetailMessageVideoInput();
 
         // 実行
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $record = MessagingApiMassage::where(['webhookEventId' => $event->id])->first();
@@ -362,7 +359,7 @@ class MessagingApiControllerTest extends TestCase
         $input['message'] = $this->getEventDetailMessageAudioInput();
 
         // 実行
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $record = MessagingApiMassage::where(['webhookEventId' => $event->id])->first();
@@ -377,7 +374,7 @@ class MessagingApiControllerTest extends TestCase
         $input['message'] = $this->getEventDetailMessageFileInput();
 
         // 実行
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $record = MessagingApiMassage::where(['webhookEventId' => $event->id])->first();
@@ -392,7 +389,7 @@ class MessagingApiControllerTest extends TestCase
         $input['message'] = $this->getEventDetailMessageLocationInput();
 
         // 実行
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $record = MessagingApiMassage::where(['webhookEventId' => $event->id])->first();
@@ -407,7 +404,7 @@ class MessagingApiControllerTest extends TestCase
         $input['message'] = $this->getEventDetailMessageStickerInput();
 
         // 実行
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $record = MessagingApiMassage::where(['webhookEventId' => $event->id])->first();
@@ -455,10 +452,10 @@ class MessagingApiControllerTest extends TestCase
         ]);
 
         // 実行
-        $reflection = new ReflectionClass($this->controller);
+        $reflection = new ReflectionClass($this->repository);
         $method = $reflection->getMethod('setEventDetailMessageText');
         $method->setAccessible(true);
-        $method->invoke($this->controller, $message->id, $input);
+        $method->invoke($this->repository, $message->id, $input);
 
         // 検証
         $record = MessagingApiMassageText::where(['messageId' => $message->id])->first();
@@ -499,10 +496,10 @@ class MessagingApiControllerTest extends TestCase
         ]);
 
         // 実行
-        $reflection = new ReflectionClass($this->controller);
+        $reflection = new ReflectionClass($this->repository);
         $method = $reflection->getMethod('setEventDetailMessageImage');
         $method->setAccessible(true);
-        $method->invoke($this->controller, $message->id, $input);
+        $method->invoke($this->repository, $message->id, $input);
 
         // 検証
         $record = MessagingApiMassageImage::where(['messageId' => $message->id])->first();
@@ -545,10 +542,10 @@ class MessagingApiControllerTest extends TestCase
         ]);
 
         // 実行
-        $reflection = new ReflectionClass($this->controller);
+        $reflection = new ReflectionClass($this->repository);
         $method = $reflection->getMethod('setEventDetailMessageVideo');
         $method->setAccessible(true);
-        $method->invoke($this->controller, $message->id, $input);
+        $method->invoke($this->repository, $message->id, $input);
 
         // 検証
         $record = MessagingApiMassageVideo::where(['messageId' => $message->id])->first();
@@ -588,10 +585,10 @@ class MessagingApiControllerTest extends TestCase
         ]);
 
         // 実行
-        $reflection = new ReflectionClass($this->controller);
+        $reflection = new ReflectionClass($this->repository);
         $method = $reflection->getMethod('setEventDetailMessageAudio');
         $method->setAccessible(true);
-        $method->invoke($this->controller, $message->id, $input);
+        $method->invoke($this->repository, $message->id, $input);
 
         // 検証
         $record = MessagingApiMassageAudio::where(['messageId' => $message->id])->first();
@@ -627,10 +624,10 @@ class MessagingApiControllerTest extends TestCase
         ]);
 
         // 実行
-        $reflection = new ReflectionClass($this->controller);
+        $reflection = new ReflectionClass($this->repository);
         $method = $reflection->getMethod('setEventDetailMessageFile');
         $method->setAccessible(true);
-        $method->invoke($this->controller, $message->id, $input);
+        $method->invoke($this->repository, $message->id, $input);
 
         // 検証
         $record = MessagingApiMassageFile::where(['messageId' => $message->id])->first();
@@ -667,10 +664,10 @@ class MessagingApiControllerTest extends TestCase
         ]);
 
         // 実行
-        $reflection = new ReflectionClass($this->controller);
+        $reflection = new ReflectionClass($this->repository);
         $method = $reflection->getMethod('setEventDetailMessageLocation');
         $method->setAccessible(true);
-        $method->invoke($this->controller, $message->id, $input);
+        $method->invoke($this->repository, $message->id, $input);
 
         // 検証
         $record = MessagingApiMassageLocation::where(['messageId' => $message->id])->first();
@@ -720,10 +717,10 @@ class MessagingApiControllerTest extends TestCase
         ]);
 
         // 実行
-        $reflection = new ReflectionClass($this->controller);
+        $reflection = new ReflectionClass($this->repository);
         $method = $reflection->getMethod('setEventDetailMessageSticker');
         $method->setAccessible(true);
-        $method->invoke($this->controller, $message->id, $input);
+        $method->invoke($this->repository, $message->id, $input);
 
         // 検証
         $record = MessagingApiMassageSticker::where(['messageId' => $message->id])->first();
@@ -762,10 +759,10 @@ class MessagingApiControllerTest extends TestCase
         $event = MessagingApiWebhookEvent::create([]);
 
         // 実行
-        $reflection = new ReflectionClass($this->controller);
+        $reflection = new ReflectionClass($this->repository);
         $method = $reflection->getMethod('setEventDetailUnsend');
         $method->setAccessible(true);
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $record = MessagingApiUnsend::where(['webhookEventId' => $event->id])->first();
@@ -796,10 +793,10 @@ class MessagingApiControllerTest extends TestCase
         $event = MessagingApiWebhookEvent::create([]);
 
         // 実行
-        $reflection = new ReflectionClass($this->controller);
+        $reflection = new ReflectionClass($this->repository);
         $method = $reflection->getMethod('setEventDetailFollow');
         $method->setAccessible(true);
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $record = MessagingApiFollow::where(['webhookEventId' => $event->id])->first();
@@ -829,10 +826,10 @@ class MessagingApiControllerTest extends TestCase
         $event = MessagingApiWebhookEvent::create([]);
 
         // 実行
-        $reflection = new ReflectionClass($this->controller);
+        $reflection = new ReflectionClass($this->repository);
         $method = $reflection->getMethod('setEventDetailUnfollow');
         $method->setAccessible(true);
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $this->assertDatabaseHas('messaging_api_unfollows', ['webhookEventId' => $event->id]);
@@ -862,10 +859,10 @@ class MessagingApiControllerTest extends TestCase
         $event = MessagingApiWebhookEvent::create([]);
 
         // 実行
-        $reflection = new ReflectionClass($this->controller);
+        $reflection = new ReflectionClass($this->repository);
         $method = $reflection->getMethod('setEventDetailJoin');
         $method->setAccessible(true);
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $record = MessagingApiJoin::where(['webhookEventId' => $event->id])->first();
@@ -895,10 +892,10 @@ class MessagingApiControllerTest extends TestCase
         $event = MessagingApiWebhookEvent::create([]);
 
         // 実行
-        $reflection = new ReflectionClass($this->controller);
+        $reflection = new ReflectionClass($this->repository);
         $method = $reflection->getMethod('setEventDetailLeave');
         $method->setAccessible(true);
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $this->assertDatabaseHas('messaging_api_leaves', ['webhookEventId' => $event->id]);
@@ -940,10 +937,10 @@ class MessagingApiControllerTest extends TestCase
         $event = MessagingApiWebhookEvent::create([]);
 
         // 実行
-        $reflection = new ReflectionClass($this->controller);
+        $reflection = new ReflectionClass($this->repository);
         $method = $reflection->getMethod('setEventDetailMemberJoined');
         $method->setAccessible(true);
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $record = MessagingApiMemberJoined::where(['webhookEventId' => $event->id])->first();
@@ -987,10 +984,10 @@ class MessagingApiControllerTest extends TestCase
         $event = MessagingApiWebhookEvent::create([]);
 
         // 実行
-        $reflection = new ReflectionClass($this->controller);
+        $reflection = new ReflectionClass($this->repository);
         $method = $reflection->getMethod('setEventDetailMemberLeft');
         $method->setAccessible(true);
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $record = MessagingApiMemberLeft::where(['webhookEventId' => $event->id])->first();
@@ -1031,10 +1028,10 @@ class MessagingApiControllerTest extends TestCase
         $event = MessagingApiWebhookEvent::create([]);
 
         // 実行
-        $reflection = new ReflectionClass($this->controller);
+        $reflection = new ReflectionClass($this->repository);
         $method = $reflection->getMethod('setEventDetailPostback');
         $method->setAccessible(true);
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $record = MessagingApiPostback::where(['webhookEventId' => $event->id])->first();
@@ -1070,10 +1067,10 @@ class MessagingApiControllerTest extends TestCase
         $event = MessagingApiWebhookEvent::create([]);
 
         // 実行
-        $reflection = new ReflectionClass($this->controller);
+        $reflection = new ReflectionClass($this->repository);
         $method = $reflection->getMethod('setEventDetailVideoPlayComplete');
         $method->setAccessible(true);
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $record = MessagingApiVideoPlayComplete::where(['webhookEventId' => $event->id])->first();
@@ -1110,10 +1107,10 @@ class MessagingApiControllerTest extends TestCase
         $event = MessagingApiWebhookEvent::create([]);
 
         // 実行
-        $reflection = new ReflectionClass($this->controller);
+        $reflection = new ReflectionClass($this->repository);
         $method = $reflection->getMethod('setEventDetailBeacon');
         $method->setAccessible(true);
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $record = MessagingApiBeacon::where(['webhookEventId' => $event->id])->first();
@@ -1151,10 +1148,10 @@ class MessagingApiControllerTest extends TestCase
         $event = MessagingApiWebhookEvent::create([]);
 
         // 実行
-        $reflection = new ReflectionClass($this->controller);
+        $reflection = new ReflectionClass($this->repository);
         $method = $reflection->getMethod('setEventDetailAccountLink');
         $method->setAccessible(true);
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $record = MessagingApiAccountLink::where(['webhookEventId' => $event->id])->first();
@@ -1206,10 +1203,10 @@ class MessagingApiControllerTest extends TestCase
         $event = MessagingApiWebhookEvent::create([]);
 
         // 実行
-        $reflection = new ReflectionClass($this->controller);
+        $reflection = new ReflectionClass($this->repository);
         $method = $reflection->getMethod('setEventDetailThings');
         $method->setAccessible(true);
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
         // 検証
         $this->assertDatabaseHas('messaging_api_things_links', ['webhookEventId' => $event->id]);
 
@@ -1235,7 +1232,7 @@ class MessagingApiControllerTest extends TestCase
         $event = MessagingApiWebhookEvent::create([]);
 
         // 実行
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
         // 検証
         $this->assertDatabaseHas('messaging_api_things_unlinks', ['webhookEventId' => $event->id]);
 
@@ -1275,7 +1272,7 @@ class MessagingApiControllerTest extends TestCase
         $event = MessagingApiWebhookEvent::create([]);
 
         // 実行
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
         // 検証
         $this->assertDatabaseHas('messaging_api_things_scenario_results', ['webhookEventId' => $event->id]);
 
@@ -1307,10 +1304,10 @@ class MessagingApiControllerTest extends TestCase
         ]);
 
         // 実行
-        $reflection = new ReflectionClass($this->controller);
+        $reflection = new ReflectionClass($this->repository);
         $method = $reflection->getMethod('setEventDetailThingsLink');
         $method->setAccessible(true);
-        $method->invoke($this->controller, $message->id, $input);
+        $method->invoke($this->repository, $message->id, $input);
 
         // 検証
         $record = MessagingApiThingsLink::where(['webhookEventId' => $event->id])->first();
@@ -1341,10 +1338,10 @@ class MessagingApiControllerTest extends TestCase
         $event = MessagingApiWebhookEvent::create([]);
 
         // 実行
-        $reflection = new ReflectionClass($this->controller);
+        $reflection = new ReflectionClass($this->repository);
         $method = $reflection->getMethod('setEventDetailThingsUnlink');
         $method->setAccessible(true);
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $record = MessagingApiThingsUnlink::where(['webhookEventId' => $event->id])->first();
@@ -1390,10 +1387,10 @@ class MessagingApiControllerTest extends TestCase
         $event = MessagingApiWebhookEvent::create([]);
 
         // 実行
-        $reflection = new ReflectionClass($this->controller);
+        $reflection = new ReflectionClass($this->repository);
         $method = $reflection->getMethod('setEventDetailThingsScenarioResult');
         $method->setAccessible(true);
-        $method->invoke($this->controller, $event->id, $input);
+        $method->invoke($this->repository, $event->id, $input);
 
         // 検証
         $record = MessagingApiThingsScenarioResult::where(['webhookEventId' => $event->id])->first();

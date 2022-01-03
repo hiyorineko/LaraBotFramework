@@ -4,35 +4,36 @@
  * Created by Reliese Model.
  */
 
-namespace App\Models;
+namespace App\Infrastructures\EloquentModels;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class MessagingApiThingsLink
- * 
+ * Class MessagingApiMemberLeft
+ *
  * @property int $webhookEventId
+ * @property array $members
  * @property string $replyToken
- * @property string $thingsDeviceId
- * 
+ *
  * @property MessagingApiWebhookEvent $messaging_api_webhook_event
  *
  * @package App\Models
  */
-class MessagingApiThingsLink extends Model
+class MessagingApiMemberLeft extends Model
 {
-	protected $table = 'messaging_api_things_links';
+	protected $table = 'messaging_api_member_lefts';
 	public $incrementing = false;
 	public $timestamps = false;
 
 	protected $casts = [
-		'webhookEventId' => 'int'
+		'webhookEventId' => 'int',
+		'members' => 'json'
 	];
 
 	protected $fillable = [
 		'webhookEventId',
-		'replyToken',
-		'thingsDeviceId'
+		'members',
+		'replyToken'
 	];
 
 	public function messaging_api_webhook_event()

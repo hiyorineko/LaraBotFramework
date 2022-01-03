@@ -4,24 +4,22 @@
  * Created by Reliese Model.
  */
 
-namespace App\Models;
+namespace App\Infrastructures\EloquentModels;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class MessagingApiLink
- * 
+ * Class MessagingApiUnfollow
+ *
  * @property int $webhookEventId
- * @property string $result
- * @property string $nonce
- * 
+ *
  * @property MessagingApiWebhookEvent $messaging_api_webhook_event
  *
  * @package App\Models
  */
-class MessagingApiLink extends Model
+class MessagingApiUnfollow extends Model
 {
-	protected $table = 'messaging_api_links';
+	protected $table = 'messaging_api_unfollows';
 	public $incrementing = false;
 	public $timestamps = false;
 
@@ -30,9 +28,7 @@ class MessagingApiLink extends Model
 	];
 
 	protected $fillable = [
-		'webhookEventId',
-		'result',
-		'nonce'
+		'webhookEventId'
 	];
 
 	public function messaging_api_webhook_event()

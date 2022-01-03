@@ -4,26 +4,24 @@
  * Created by Reliese Model.
  */
 
-namespace App\Models;
+namespace App\Infrastructures\EloquentModels;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class MessagingApiBeacon
- * 
+ * Class MessagingApiThingsLink
+ *
  * @property int $webhookEventId
  * @property string $replyToken
- * @property string $beaconHwid
- * @property string $beaconType
- * @property string $beaconDm
- * 
+ * @property string $thingsDeviceId
+ *
  * @property MessagingApiWebhookEvent $messaging_api_webhook_event
  *
  * @package App\Models
  */
-class MessagingApiBeacon extends Model
+class MessagingApiThingsLink extends Model
 {
-	protected $table = 'messaging_api_beacons';
+	protected $table = 'messaging_api_things_links';
 	public $incrementing = false;
 	public $timestamps = false;
 
@@ -34,9 +32,7 @@ class MessagingApiBeacon extends Model
 	protected $fillable = [
 		'webhookEventId',
 		'replyToken',
-		'beaconHwid',
-		'beaconType',
-		'beaconDm'
+		'thingsDeviceId'
 	];
 
 	public function messaging_api_webhook_event()

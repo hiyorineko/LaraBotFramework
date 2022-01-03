@@ -4,42 +4,38 @@
  * Created by Reliese Model.
  */
 
-namespace App\Models;
+namespace App\Infrastructures\EloquentModels;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class MessagingApiMassageSticker
+ * Class MessagingApiMassageFile
  *
  * @property int $messageId
- * @property string $packageId
- * @property string $stickerId
- * @property string $stickerResourceType
- * @property array $keywords
- * @property string $text
+ * @property int $fileSize
+ * @property string $fileName
+ * @property string $path
  *
  * @property MessagingApiMassage $messaging_api_massage
  *
  * @package App\Models
  */
-class MessagingApiMassageSticker extends Model
+class MessagingApiMassageFile extends Model
 {
-	protected $table = 'messaging_api_massage_stickers';
+	protected $table = 'messaging_api_massage_files';
 	public $incrementing = false;
 	public $timestamps = false;
 
 	protected $casts = [
 		'messageId' => 'int',
-		'keywords' => 'json'
+		'fileSize' => 'int'
 	];
 
 	protected $fillable = [
 		'messageId',
-		'packageId',
-		'stickerId',
-		'stickerResourceType',
-		'keywords',
-		'text'
+		'fileSize',
+		'fileName',
+		'path'
 	];
 
 	public function messaging_api_massage()

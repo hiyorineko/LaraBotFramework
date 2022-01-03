@@ -4,34 +4,33 @@
  * Created by Reliese Model.
  */
 
-namespace App\Models;
+namespace App\Infrastructures\EloquentModels;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class MessagingApiUnsend
- * 
+ * Class MessagingApiFollow
+ *
  * @property int $webhookEventId
- * @property int $messageId
- * 
+ * @property string $replyToken
+ *
  * @property MessagingApiWebhookEvent $messaging_api_webhook_event
  *
  * @package App\Models
  */
-class MessagingApiUnsend extends Model
+class MessagingApiFollow extends Model
 {
-	protected $table = 'messaging_api_unsends';
+	protected $table = 'messaging_api_follows';
 	public $incrementing = false;
 	public $timestamps = false;
 
 	protected $casts = [
-		'webhookEventId' => 'int',
-		'messageId' => 'int'
+		'webhookEventId' => 'int'
 	];
 
 	protected $fillable = [
 		'webhookEventId',
-		'messageId'
+		'replyToken'
 	];
 
 	public function messaging_api_webhook_event()

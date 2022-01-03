@@ -4,35 +4,34 @@
  * Created by Reliese Model.
  */
 
-namespace App\Models;
+namespace App\Infrastructures\EloquentModels;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class MessagingApiVideoPlayComplete
- * 
+ * Class MessagingApiUnsend
+ *
  * @property int $webhookEventId
- * @property string $replyToken
- * @property string $trackingId
- * 
+ * @property int $messageId
+ *
  * @property MessagingApiWebhookEvent $messaging_api_webhook_event
  *
  * @package App\Models
  */
-class MessagingApiVideoPlayComplete extends Model
+class MessagingApiUnsend extends Model
 {
-	protected $table = 'messaging_api_video_play_completes';
+	protected $table = 'messaging_api_unsends';
 	public $incrementing = false;
 	public $timestamps = false;
 
 	protected $casts = [
-		'webhookEventId' => 'int'
+		'webhookEventId' => 'int',
+		'messageId' => 'int'
 	];
 
 	protected $fillable = [
 		'webhookEventId',
-		'replyToken',
-		'trackingId'
+		'messageId'
 	];
 
 	public function messaging_api_webhook_event()

@@ -4,22 +4,23 @@
  * Created by Reliese Model.
  */
 
-namespace App\Models;
+namespace App\Infrastructures\EloquentModels;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class MessagingApiLeave
+ * Class MessagingApiJoin
  *
  * @property int $webhookEventId
+ * @property string $replyToken
  *
  * @property MessagingApiWebhookEvent $messaging_api_webhook_event
  *
  * @package App\Models
  */
-class MessagingApiLeave extends Model
+class MessagingApiJoin extends Model
 {
-	protected $table = 'messaging_api_leaves';
+	protected $table = 'messaging_api_joins';
 	public $incrementing = false;
 	public $timestamps = false;
 
@@ -28,7 +29,8 @@ class MessagingApiLeave extends Model
 	];
 
 	protected $fillable = [
-		'webhookEventId'
+		'webhookEventId',
+		'replyToken'
 	];
 
 	public function messaging_api_webhook_event()

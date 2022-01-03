@@ -4,39 +4,42 @@
  * Created by Reliese Model.
  */
 
-namespace App\Models;
+namespace App\Infrastructures\EloquentModels;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class MessagingApiMassageText
+ * Class MessagingApiMassageSticker
  *
  * @property int $messageId
+ * @property string $packageId
+ * @property string $stickerId
+ * @property string $stickerResourceType
+ * @property array $keywords
  * @property string $text
- * @property array $emojis
- * @property array $mention
  *
  * @property MessagingApiMassage $messaging_api_massage
  *
  * @package App\Models
  */
-class MessagingApiMassageText extends Model
+class MessagingApiMassageSticker extends Model
 {
-	protected $table = 'messaging_api_massage_texts';
+	protected $table = 'messaging_api_massage_stickers';
 	public $incrementing = false;
 	public $timestamps = false;
 
 	protected $casts = [
 		'messageId' => 'int',
-		'emojis' => 'json',
-		'mention' => 'json'
+		'keywords' => 'json'
 	];
 
 	protected $fillable = [
 		'messageId',
-		'text',
-		'emojis',
-		'mention'
+		'packageId',
+		'stickerId',
+		'stickerResourceType',
+		'keywords',
+		'text'
 	];
 
 	public function messaging_api_massage()

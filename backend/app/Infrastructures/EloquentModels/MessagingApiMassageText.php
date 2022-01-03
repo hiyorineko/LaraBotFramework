@@ -4,44 +4,39 @@
  * Created by Reliese Model.
  */
 
-namespace App\Models;
+namespace App\Infrastructures\EloquentModels;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class MessagingApiMassageVideo
+ * Class MessagingApiMassageText
  *
  * @property int $messageId
- * @property int $duration
- * @property string $type
- * @property string $originalContentUrl
- * @property string $previewImageUrl
- * @property string $fileName
- * @property string $path
+ * @property string $text
+ * @property array $emojis
+ * @property array $mention
  *
  * @property MessagingApiMassage $messaging_api_massage
  *
  * @package App\Models
  */
-class MessagingApiMassageVideo extends Model
+class MessagingApiMassageText extends Model
 {
-	protected $table = 'messaging_api_massage_videos';
+	protected $table = 'messaging_api_massage_texts';
 	public $incrementing = false;
 	public $timestamps = false;
 
 	protected $casts = [
 		'messageId' => 'int',
-		'duration' => 'int'
+		'emojis' => 'json',
+		'mention' => 'json'
 	];
 
 	protected $fillable = [
 		'messageId',
-		'duration',
-		'type',
-		'originalContentUrl',
-		'previewImageUrl',
-		'fileName',
-		'path'
+		'text',
+		'emojis',
+		'mention'
 	];
 
 	public function messaging_api_massage()

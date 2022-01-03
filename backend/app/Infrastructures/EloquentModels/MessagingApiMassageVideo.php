@@ -4,15 +4,18 @@
  * Created by Reliese Model.
  */
 
-namespace App\Models;
+namespace App\Infrastructures\EloquentModels;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class MessagingApiMassageFile
+ * Class MessagingApiMassageVideo
  *
  * @property int $messageId
- * @property int $fileSize
+ * @property int $duration
+ * @property string $type
+ * @property string $originalContentUrl
+ * @property string $previewImageUrl
  * @property string $fileName
  * @property string $path
  *
@@ -20,20 +23,23 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models
  */
-class MessagingApiMassageFile extends Model
+class MessagingApiMassageVideo extends Model
 {
-	protected $table = 'messaging_api_massage_files';
+	protected $table = 'messaging_api_massage_videos';
 	public $incrementing = false;
 	public $timestamps = false;
 
 	protected $casts = [
 		'messageId' => 'int',
-		'fileSize' => 'int'
+		'duration' => 'int'
 	];
 
 	protected $fillable = [
 		'messageId',
-		'fileSize',
+		'duration',
+		'type',
+		'originalContentUrl',
+		'previewImageUrl',
 		'fileName',
 		'path'
 	];

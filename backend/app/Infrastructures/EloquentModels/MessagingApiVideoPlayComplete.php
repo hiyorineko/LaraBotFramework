@@ -4,36 +4,35 @@
  * Created by Reliese Model.
  */
 
-namespace App\Models;
+namespace App\Infrastructures\EloquentModels;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class MessagingApiMemberJoined
- * 
+ * Class MessagingApiVideoPlayComplete
+ *
  * @property int $webhookEventId
- * @property array $members
  * @property string $replyToken
- * 
+ * @property string $trackingId
+ *
  * @property MessagingApiWebhookEvent $messaging_api_webhook_event
  *
  * @package App\Models
  */
-class MessagingApiMemberJoined extends Model
+class MessagingApiVideoPlayComplete extends Model
 {
-	protected $table = 'messaging_api_member_joineds';
+	protected $table = 'messaging_api_video_play_completes';
 	public $incrementing = false;
 	public $timestamps = false;
 
 	protected $casts = [
-		'webhookEventId' => 'int',
-		'members' => 'json'
+		'webhookEventId' => 'int'
 	];
 
 	protected $fillable = [
 		'webhookEventId',
-		'members',
-		'replyToken'
+		'replyToken',
+		'trackingId'
 	];
 
 	public function messaging_api_webhook_event()
