@@ -10,11 +10,11 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class MessagingApiAccountLink
- * 
+ *
  * @property int $webhookEventId
  * @property string $replyToken
- * @property array $links
- * 
+ * @property array $link
+ *
  * @property MessagingApiWebhookEvent $messaging_api_webhook_event
  *
  * @package App\Models
@@ -27,13 +27,13 @@ class MessagingApiAccountLink extends Model
 
 	protected $casts = [
 		'webhookEventId' => 'int',
-		'links' => 'json'
+		'link' => 'json'
 	];
 
 	protected $fillable = [
 		'webhookEventId',
 		'replyToken',
-		'links'
+		'link'
 	];
 
 	public function messaging_api_webhook_event()

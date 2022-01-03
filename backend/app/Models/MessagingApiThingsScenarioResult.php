@@ -11,19 +11,19 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class MessagingApiThingsScenarioResult
- * 
+ *
  * @property int $webhookEventId
  * @property string $replyToken
  * @property string $thingsDeviceId
  * @property string $thingsResultScenarioId
  * @property int $thingsResultRevision
- * @property Carbon $thingsResultStartTime
- * @property Carbon $thingsResultEndTime
+ * @property int $thingsResultStartTime
+ * @property int $thingsResultEndTime
  * @property string $thingsResultResultCode
  * @property array $thingsResultActionResults
  * @property string $thingsResultBleNotificationPayload
  * @property string $thingsResultErrorReason
- * 
+ *
  * @property MessagingApiWebhookEvent $messaging_api_webhook_event
  *
  * @package App\Models
@@ -37,12 +37,9 @@ class MessagingApiThingsScenarioResult extends Model
 	protected $casts = [
 		'webhookEventId' => 'int',
 		'thingsResultRevision' => 'int',
+        'thingsResultStartTime' => 'int',
+        'thingsResultEndTime' => 'int',
 		'thingsResultActionResults' => 'json'
-	];
-
-	protected $dates = [
-		'thingsResultStartTime',
-		'thingsResultEndTime'
 	];
 
 	protected $fillable = [

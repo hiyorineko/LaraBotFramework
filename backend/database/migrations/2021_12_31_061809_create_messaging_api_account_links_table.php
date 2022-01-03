@@ -21,7 +21,7 @@ class CreateMessagingApiAccountLinksTable extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->string('replyToken')->nullable();
-            $table->json('links')->nullable();
+            $table->json('link')->nullable();
         });
     }
 

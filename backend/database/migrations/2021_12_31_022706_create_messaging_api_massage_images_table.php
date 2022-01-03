@@ -13,7 +13,7 @@ class CreateMessagingApiMassageImagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('messaging_api_massage_image', function (Blueprint $table) {
+        Schema::create('messaging_api_massage_images', function (Blueprint $table) {
             $table->unsignedBigInteger('messageId');
             $table->foreign('messageId')
                 ->references('id')

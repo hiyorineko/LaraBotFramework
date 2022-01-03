@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class MessagingApiMassageText extends Model
 {
-	protected $table = 'messaging_api_massage_text';
+	protected $table = 'messaging_api_massage_texts';
 	public $incrementing = false;
 	public $timestamps = false;
 

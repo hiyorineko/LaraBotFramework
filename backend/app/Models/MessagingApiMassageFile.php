@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property int $messageId
  * @property int $fileSize
- * @property string $file_name
+ * @property string $fileName
  * @property string $path
  *
  * @property MessagingApiMassage $messaging_api_massage
@@ -34,7 +34,7 @@ class MessagingApiMassageFile extends Model
 	protected $fillable = [
 		'messageId',
 		'fileSize',
-		'file_name',
+		'fileName',
 		'path'
 	];
 

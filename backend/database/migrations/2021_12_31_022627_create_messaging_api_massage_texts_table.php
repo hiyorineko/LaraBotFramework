@@ -13,7 +13,7 @@ class CreateMessagingApiMassageTextsTable extends Migration
      */
     public function up()
     {
-        Schema::create('messaging_api_massage_text', function (Blueprint $table) {
+        Schema::create('messaging_api_massage_texts', function (Blueprint $table) {
             $table->unsignedBigInteger('messageId');
             $table->text('text')->nullable();
             $table->json('emojis')->nullable();

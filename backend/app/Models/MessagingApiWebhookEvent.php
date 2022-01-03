@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $userId
  * @property string $groupId
  * @property string $roomId
- * @property Carbon $created_at
+ * @property int $timestamp
  *
  * @property MessagingApiAccountLink $messaging_api_account_link
  * @property MessagingApiBeacon $messaging_api_beacon
@@ -53,7 +53,7 @@ class MessagingApiWebhookEvent extends Model
 		'userId',
 		'groupId',
 		'roomId',
-        'createdAt'
+        'timestamp'
 	];
 
 	public function messaging_api_account_link()

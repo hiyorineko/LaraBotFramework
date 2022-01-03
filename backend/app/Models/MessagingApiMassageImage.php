@@ -27,7 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class MessagingApiMassageImage extends Model
 {
-	protected $table = 'messaging_api_massage_image';
+	protected $table = 'messaging_api_massage_images';
 	public $incrementing = false;
 	public $timestamps = false;
 

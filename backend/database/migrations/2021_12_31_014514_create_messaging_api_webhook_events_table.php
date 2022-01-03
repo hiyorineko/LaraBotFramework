@@ -23,7 +23,7 @@ class CreateMessagingApiWebhookEventsTable extends Migration
             $table->string('userId')->nullable();
             $table->string('groupId')->nullable();
             $table->string('roomId')->nullable();
-            $table->timestamp('createdAt')->nullable();
+            $table->integer('timestamp')->nullable();
         });
     }
 

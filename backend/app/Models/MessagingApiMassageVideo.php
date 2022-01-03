@@ -14,9 +14,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $messageId
  * @property int $duration
  * @property string $type
- * @property string $original_content_url
- * @property string $preview_image_url
- * @property string $file_name
+ * @property string $originalContentUrl
+ * @property string $previewImageUrl
+ * @property string $fileName
  * @property string $path
  *
  * @property MessagingApiMassage $messaging_api_massage
@@ -38,9 +38,9 @@ class MessagingApiMassageVideo extends Model
 		'messageId',
 		'duration',
 		'type',
-		'original_content_url',
-		'preview_image_url',
-		'file_name',
+		'originalContentUrl',
+		'previewImageUrl',
+		'fileName',
 		'path'
 	];
 
