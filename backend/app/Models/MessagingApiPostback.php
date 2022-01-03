@@ -10,12 +10,12 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class MessagingApiPostback
- * 
+ *
  * @property int $webhookEventId
- * @property array $data
+ * @property string $data
  * @property array $params
  * @property string $replyToken
- * 
+ *
  * @property MessagingApiWebhookEvent $messaging_api_webhook_event
  *
  * @package App\Models
@@ -28,7 +28,6 @@ class MessagingApiPostback extends Model
 
 	protected $casts = [
 		'webhookEventId' => 'int',
-		'data' => 'json',
 		'params' => 'json'
 	];
 

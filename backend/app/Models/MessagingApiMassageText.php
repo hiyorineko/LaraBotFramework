@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $messageId
  * @property string $text
  * @property array $emojis
- * @property array $mentions
+ * @property array $mention
  *
  * @property MessagingApiMassage $messaging_api_massage
  *
@@ -29,14 +29,14 @@ class MessagingApiMassageText extends Model
 	protected $casts = [
 		'messageId' => 'int',
 		'emojis' => 'json',
-		'mentions' => 'json'
+		'mention' => 'json'
 	];
 
 	protected $fillable = [
 		'messageId',
 		'text',
 		'emojis',
-		'mentions'
+		'mention'
 	];
 
 	public function messaging_api_massage()

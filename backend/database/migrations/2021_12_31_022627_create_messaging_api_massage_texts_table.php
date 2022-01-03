@@ -17,7 +17,7 @@ class CreateMessagingApiMassageTextsTable extends Migration
             $table->unsignedBigInteger('messageId');
             $table->text('text')->nullable();
             $table->json('emojis')->nullable();
-            $table->json('mentions')->nullable();
+            $table->json('mention')->nullable();
             $table->foreign('messageId')
                 ->references('id')
                 ->on('messaging_api_massages')

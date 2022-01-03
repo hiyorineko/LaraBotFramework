@@ -20,7 +20,7 @@ class CreateMessagingApiPostbacksTable extends Migration
                 ->on('messaging_api_webhook_events')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->json('data')->nullable();
+            $table->string('data')->nullable();
             $table->json('params')->nullable();
             $table->string('replyToken')->nullable();
         });
