@@ -48,12 +48,19 @@ class MessagingApiTest extends TestCase
         $expected = array(
             'type' => 'text',
             'text' => 'aaa',
-            'emojis' => 'bbb',
+            'emojis' => array(
+                array(
+                    'index' => 14,
+                    'length' => 6,
+                    'productId' => '5ac1bfd5040ab15980c9b435',
+                    'emojiId' => '001',
+                )
+            ),
         );
         $result = MessagingApi::createTextMessage($expected['text'], $expected['emojis']);
         $this->assertSame(array_keys($expected), array_keys($result));
         $this->assertEquals($expected['text'], $result['text']);
-        $this->assertEquals($expected['emojis'], $result['emojis']);
+        $this->assertSame($expected['emojis'], $result['emojis']);
     }
 
     public function test_createStickerMessage()
