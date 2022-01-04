@@ -1,18 +1,26 @@
 <?php
 
-namespace Tests\Unit\Infrastructures;
+namespace Tests\Unit\Infrastractures\BotApi;
 
-use App\Infrastructures\MessagingApi;
+use App\Infrastructures\BotApi\MessagingApi;
 use Tests\TestCase;
 
 class MessagingApiTest extends TestCase
 {
+    private MessagingApi $messagingApi;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->messagingApi = new MessagingApi();
+    }
+
     public function test_createQuickReply()
     {
         $expected = array(
             'items' => 'aaa'
         );
-        $result = MessagingApi::createQuickReply($expected['items']);
+        $result = $this->messagingApi->createQuickReply($expected['items']);
         $this->assertSame(array_keys($expected), array_keys($result));
         $this->assertEquals($expected['items'], $result['items']);
     }
@@ -24,7 +32,7 @@ class MessagingApiTest extends TestCase
             'imageUrl' => 'aaa',
             'action' => 'bbb'
         );
-        $result = MessagingApi::createQuickReplyItem($expected['imageUrl'], $expected['action']);
+        $result = $this->messagingApi->createQuickReplyItem($expected['imageUrl'], $expected['action']);
         $this->assertSame(array_keys($expected), array_keys($result));
         $this->assertEquals($expected['type'], $result['type']);
         $this->assertEquals($expected['imageUrl'], $result['imageUrl']);
@@ -37,7 +45,7 @@ class MessagingApiTest extends TestCase
             'name' => 'sender',
             'iconUrl' => 'iconurl',
         );
-        $result = MessagingApi::createSender();
+        $result = $this->messagingApi->createSender();
         $this->assertSame(array_keys($expected), array_keys($result));
         $this->assertEquals($expected['name'], $result['name']);
         $this->assertEquals($expected['iconUrl'], $result['iconUrl']);
@@ -57,7 +65,7 @@ class MessagingApiTest extends TestCase
                 )
             ),
         );
-        $result = MessagingApi::createTextMessage($expected['text'], $expected['emojis']);
+        $result = $this->messagingApi->createTextMessage($expected['text'], $expected['emojis']);
         $this->assertSame(array_keys($expected), array_keys($result));
         $this->assertEquals($expected['text'], $result['text']);
         $this->assertSame($expected['emojis'], $result['emojis']);
@@ -70,7 +78,7 @@ class MessagingApiTest extends TestCase
             'packageId' => 'aaa',
             'stickerId' => 'bbb'
         );
-        $result = MessagingApi::createStickerMessage($expected['packageId'], $expected['stickerId']);
+        $result = $this->messagingApi->createStickerMessage($expected['packageId'], $expected['stickerId']);
         $this->assertSame(array_keys($expected), array_keys($result));
         $this->assertEquals($expected['type'], $result['type']);
         $this->assertEquals($expected['packageId'], $result['packageId']);
@@ -84,7 +92,7 @@ class MessagingApiTest extends TestCase
             'originalContentUrl' => 'aaa',
             'previewImageUrl' => 'bbb'
         );
-        $result = MessagingApi::createImageMessage($expected['originalContentUrl'], $expected['previewImageUrl']);
+        $result = $this->messagingApi->createImageMessage($expected['originalContentUrl'], $expected['previewImageUrl']);
         $this->assertSame(array_keys($expected), array_keys($result));
         $this->assertEquals($expected['type'], $result['type']);
         $this->assertEquals($expected['originalContentUrl'], $result['originalContentUrl']);
@@ -99,7 +107,7 @@ class MessagingApiTest extends TestCase
             'previewImageUrl' => 'bbb',
             'trackingId' => 'ccc'
         );
-        $result = MessagingApi::createVideoMessage($expected['originalContentUrl'], $expected['previewImageUrl'], $expected['trackingId']);
+        $result = $this->messagingApi->createVideoMessage($expected['originalContentUrl'], $expected['previewImageUrl'], $expected['trackingId']);
         $this->assertSame(array_keys($expected), array_keys($result));
         $this->assertEquals($expected['type'], $result['type']);
         $this->assertEquals($expected['originalContentUrl'], $result['originalContentUrl']);
@@ -113,7 +121,7 @@ class MessagingApiTest extends TestCase
             'type' => 'audio',
             'originalContentUrl' => 'aaa',
         );
-        $result = MessagingApi::createAudioMessage($expected['originalContentUrl']);
+        $result = $this->messagingApi->createAudioMessage($expected['originalContentUrl']);
         $this->assertSame(array_keys($expected), array_keys($result));
         $this->assertEquals($expected['type'], $result['type']);
         $this->assertEquals($expected['originalContentUrl'], $result['originalContentUrl']);
@@ -128,7 +136,7 @@ class MessagingApiTest extends TestCase
             'latitude' => 'ccc',
             'longitude' => 'ddd',
         );
-        $result = MessagingApi::createLocationMessage($expected['title'], $expected['address'], $expected['latitude'], $expected['longitude']);
+        $result = $this->messagingApi->createLocationMessage($expected['title'], $expected['address'], $expected['latitude'], $expected['longitude']);
         $this->assertSame(array_keys($expected), array_keys($result));
         $this->assertEquals($expected['type'], $result['type']);
         $this->assertEquals($expected['title'], $result['title']);

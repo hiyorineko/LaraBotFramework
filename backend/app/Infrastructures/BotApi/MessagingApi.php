@@ -1,19 +1,23 @@
 <?php
 
-namespace App\Infrastructures;
+namespace App\Infrastructures\BotApi;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 
-class MessagingApi
+class MessagingApi implements BotApi
 {
+    public function getDirName(): string
+    {
+        return "MessagingApi";
+    }
 
     /**
      * QuickReplyオブジェクトを作成
      * @param $quickReplyItems
      * @return array
      */
-    public static function createQuickReply($quickReplyItems): array
+    public function createQuickReply($quickReplyItems): array
     {
         return array(
             'items' => $quickReplyItems
@@ -23,7 +27,7 @@ class MessagingApi
     /**
      * QuickReplyItemオブジェクトを作成
      */
-    public static function createQuickReplyItem($imageUrl, $action): array
+    public function createQuickReplyItem($imageUrl, $action): array
     {
         return array(
             'type' => 'action',
@@ -36,7 +40,7 @@ class MessagingApi
      * Senderオブジェクトを作成
      * @return array
      */
-    public static function createSender(): array
+    public function createSender(): array
     {
         return array(
             'name' => Config::get('messagingApi.sender_name'),
@@ -50,7 +54,7 @@ class MessagingApi
      * @param array $emojis
      * @return array
      */
-    public static function createTextMessage($text, array $emojis = []): array
+    public function createTextMessage($text, array $emojis = []): array
     {
         $message = array(
             'type' => 'text',
@@ -68,7 +72,7 @@ class MessagingApi
      * @param $stickerId
      * @return array
      */
-    public static function createStickerMessage($packageId, $stickerId): array
+    public function createStickerMessage($packageId, $stickerId): array
     {
         return array(
             'type' => 'sticker',
@@ -83,7 +87,7 @@ class MessagingApi
      * @param $previewImageUrl
      * @return array
      */
-    public static function createImageMessage($originalContentUrl, $previewImageUrl): array
+    public function createImageMessage($originalContentUrl, $previewImageUrl): array
     {
         return array(
             'type' => 'image',
@@ -99,7 +103,7 @@ class MessagingApi
      * @param $trackingId
      * @return array
      */
-    public static function createVideoMessage($originalContentUrl, $previewImageUrl, $trackingId): array
+    public function createVideoMessage($originalContentUrl, $previewImageUrl, $trackingId): array
     {
         return array(
             'type' => 'video',
@@ -114,7 +118,7 @@ class MessagingApi
      * @param $originalContentUrl
      * @return array
      */
-    public static function createAudioMessage($originalContentUrl): array
+    public function createAudioMessage($originalContentUrl): array
     {
         return array(
             'type' => 'audio',
@@ -130,7 +134,7 @@ class MessagingApi
      * @param $longitude
      * @return array
      */
-    public static function createLocationMessage($title, $address, $latitude, $longitude): array
+    public function createLocationMessage($title, $address, $latitude, $longitude): array
     {
         return array(
             'type' => 'location',
@@ -141,37 +145,37 @@ class MessagingApi
         );
     }
 
-    public static function createImageMapMessage()
+    public function createImageMapMessage()
     {
         // TODO
     }
 
-    public static function createTemplateMessage()
+    public function createTemplateMessage()
     {
         // TODO
     }
 
-    public static function createFlexMessage()
+    public function createFlexMessage()
     {
         // TODO
     }
 
-    public static function createBubbleMessage()
+    public function createBubbleMessage()
     {
         // TODO
     }
 
-    public static function createCarouselMessage()
+    public function createCarouselMessage()
     {
         // TODO
     }
 
-    public static function createButtonMessage()
+    public function createButtonMessage()
     {
         // TODO
     }
 
-    private static function execApi($curlOptions) {
+    private function execApi($curlOptions) {
         $curl = curl_init();
         curl_setopt_array($curl, $curlOptions);
         $response = curl_exec($curl);
@@ -181,7 +185,7 @@ class MessagingApi
         curl_close($curl);
     }
 
-    public static function reply($replyToken, $messages, $notificationDisabled = false)
+    public function reply($replyToken, $messages, $notificationDisabled = false)
     {
         $header = array(
             'Content-Type: application/json',
@@ -197,10 +201,10 @@ class MessagingApi
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HTTPHEADER => $header,
             CURLOPT_POSTFIELDS => json_encode($body));
-        self::execApi($options);
+        $this->execApi($options);
     }
 
-    public static function push($to, $messages, $notificationDisabled = false, $retryKey = null)
+    public function push($to, $messages, $notificationDisabled = false, $retryKey = null)
     {
         $header = array(
             'Content-Type: application/json',
@@ -219,61 +223,62 @@ class MessagingApi
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HTTPHEADER => $header,
             CURLOPT_POSTFIELDS => json_encode($body));
-        self::execApi($options);
+        $this->execApi($options);
     }
 
-    public static function multicast()
+    public function multicast()
     {
         // TODO
     }
 
-    public static function narrowcast()
+    public function narrowcast()
     {
         // TODO
     }
 
-    public static function progressNarrowcast()
+    public function progressNarrowcast()
     {
         // TODO
     }
 
-    public static function broadcast()
+    public function broadcast()
     {
         // TODO
     }
 
-    public static function downloadContent()
+    public function downloadContent()
     {
         // TODO
     }
 
-    public static function quota()
+    public function quota()
     {
         // TODO
     }
 
-    public static function quotaConsumption()
+    public function quotaConsumption()
     {
         // TODO
     }
 
-    public static function deliveryReply()
+    public function deliveryReply()
     {
         // TODO
     }
 
-    public static function deliveryPush()
+    public function deliveryPush()
     {
         // TODO
     }
 
-    public static function deliveryMulticast()
+    public function deliveryMulticast()
     {
         // TODO
     }
 
-    public static function deliveryBroadcast()
+    public function deliveryBroadcast()
     {
         // TODO
     }
+
 }
