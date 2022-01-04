@@ -21,22 +21,22 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $roomId
  * @property int $timestamp
  *
- * @property MessagingApiAccountLink $messaging_api_account_link
- * @property MessagingApiBeacon $messaging_api_beacon
- * @property MessagingApiFollow $messaging_api_follow
- * @property MessagingApiJoin $messaging_api_join
- * @property MessagingApiLeave $messaging_api_leave
- * @property MessagingApiLink $messaging_api_link
- * @property Collection|MessagingApiMassage[] $messaging_api_massages
- * @property MessagingApiMemberJoined $messaging_api_member_joined
- * @property MessagingApiMemberLeft $messaging_api_member_left
- * @property MessagingApiPostback $messaging_api_postback
- * @property MessagingApiThingsLink $messaging_api_things_link
- * @property MessagingApiThingsScenarioResult $messaging_api_things_scenario_result
- * @property MessagingApiThingsUnlink $messaging_api_things_unlink
- * @property MessagingApiUnfollow $messaging_api_unfollow
- * @property MessagingApiUnsend $messaging_api_unsend
- * @property MessagingApiVideoPlayComplete $messaging_api_video_play_complete
+ * @property MessagingApiAccountLink $account_link
+ * @property MessagingApiBeacon $beacon
+ * @property MessagingApiFollow $follow
+ * @property MessagingApiJoin $join
+ * @property MessagingApiLeave $leave
+ * @property MessagingApiLink $link
+ * @property Collection|MessagingApiMassage[] $massages
+ * @property MessagingApiMemberJoined $member_joined
+ * @property MessagingApiMemberLeft $member_left
+ * @property MessagingApiPostback $postback
+ * @property MessagingApiThingsLink $things_link
+ * @property MessagingApiThingsScenarioResult $things_scenario_result
+ * @property MessagingApiThingsUnlink $things_unlink
+ * @property MessagingApiUnfollow $unfollow
+ * @property MessagingApiUnsend $unsend
+ * @property MessagingApiVideoPlayComplete $video_play_complete
  *
  * @package App\Models
  */
@@ -55,82 +55,82 @@ class MessagingApiWebhookEvent extends Model
         'timestamp'
 	];
 
-	public function messaging_api_account_link()
+	public function account_link()
 	{
 		return $this->hasOne(MessagingApiAccountLink::class, 'webhookEventId');
 	}
 
-	public function messaging_api_beacon()
+	public function beacon()
 	{
 		return $this->hasOne(MessagingApiBeacon::class, 'webhookEventId');
 	}
 
-	public function messaging_api_follow()
+	public function follow()
 	{
 		return $this->hasOne(MessagingApiFollow::class, 'webhookEventId');
 	}
 
-	public function messaging_api_join()
+	public function join()
 	{
 		return $this->hasOne(MessagingApiJoin::class, 'webhookEventId');
 	}
 
-	public function messaging_api_leafe()
+	public function leave()
 	{
 		return $this->hasOne(MessagingApiLeave::class, 'webhookEventId');
 	}
 
-	public function messaging_api_link()
+	public function link()
 	{
 		return $this->hasOne(MessagingApiLink::class, 'webhookEventId');
 	}
 
-	public function messaging_api_massages()
+	public function massages()
 	{
 		return $this->hasMany(MessagingApiMassage::class, 'webhook_event_id');
 	}
 
-	public function messaging_api_member_joined()
+	public function member_joined()
 	{
 		return $this->hasOne(MessagingApiMemberJoined::class, 'webhookEventId');
 	}
 
-	public function messaging_api_member_left()
+	public function member_left()
 	{
 		return $this->hasOne(MessagingApiMemberLeft::class, 'webhookEventId');
 	}
 
-	public function messaging_api_postback()
+	public function postback()
 	{
 		return $this->hasOne(MessagingApiPostback::class, 'webhookEventId');
 	}
 
-	public function messaging_api_things_link()
+	public function things_link()
 	{
 		return $this->hasOne(MessagingApiThingsLink::class, 'webhookEventId');
 	}
 
-	public function messaging_api_things_scenario_result()
+	public function things_scenario_result()
 	{
 		return $this->hasOne(MessagingApiThingsScenarioResult::class, 'webhookEventId');
 	}
 
-	public function messaging_api_things_unlink()
+	public function things_unlink()
 	{
 		return $this->hasOne(MessagingApiThingsUnlink::class, 'webhookEventId');
 	}
 
-	public function messaging_api_unfollow()
+	public function unfollow()
 	{
 		return $this->hasOne(MessagingApiUnfollow::class, 'webhookEventId');
 	}
 
-	public function messaging_api_unsend()
+	public function unsend()
 	{
 		return $this->hasOne(MessagingApiUnsend::class, 'webhookEventId');
 	}
 
-	public function messaging_api_video_play_complete()
+	public function video_play_complete()
 	{
 		return $this->hasOne(MessagingApiVideoPlayComplete::class, 'webhookEventId');
 	}

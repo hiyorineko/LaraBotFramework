@@ -14,7 +14,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $messageId
  * @property int $fileSize
  * @property string $fileName
- * @property string $path
  *
  * @property MessagingApiMassage $messaging_api_massage
  *
@@ -35,10 +34,9 @@ class MessagingApiMassageFile extends Model
 		'messageId',
 		'fileSize',
 		'fileName',
-		'path'
 	];
 
-	public function messaging_api_massage()
+	public function massage()
 	{
 		return $this->belongsTo(MessagingApiMassage::class, 'messageId');
 	}

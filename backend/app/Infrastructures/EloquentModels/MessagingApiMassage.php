@@ -41,42 +41,42 @@ class MessagingApiMassage extends Model
 		'replyToken'
 	];
 
-	public function messaging_api_webhook_event()
+	public function webhook_event()
 	{
 		return $this->belongsTo(MessagingApiWebhookEvent::class, 'webhookEventId');
 	}
 
-	public function messaging_api_massage_audio()
+	public function massage_audio()
 	{
 		return $this->hasOne(MessagingApiMassageAudio::class, 'message_id');
 	}
 
-	public function messaging_api_massage_file()
+	public function massage_file()
 	{
 		return $this->hasOne(MessagingApiMassageFile::class, 'message_id');
 	}
 
-	public function messaging_api_massage_images()
+	public function massage_images()
 	{
 		return $this->hasMany(MessagingApiMassageImage::class, 'message_id');
 	}
 
-	public function messaging_api_massage_location()
+	public function massage_location()
 	{
 		return $this->hasOne(MessagingApiMassageLocation::class, 'message_id');
 	}
 
-	public function messaging_api_massage_stamp()
+	public function massage_stamp()
 	{
 		return $this->hasOne(MessagingApiMassageSticker::class, 'message_id');
 	}
 
-	public function messaging_api_massage_text()
+	public function massage_text()
 	{
 		return $this->hasOne(MessagingApiMassageText::class, 'message_id');
 	}
 
-	public function messaging_api_massage_video()
+	public function massage_video()
 	{
 		return $this->hasOne(MessagingApiMassageVideo::class, 'message_id');
 	}

@@ -38,7 +38,7 @@ class MessagingApiPostback extends Model
 		'replyToken'
 	];
 
-	public function messaging_api_webhook_event()
+	public function webhook_event()
 	{
 		return $this->belongsTo(MessagingApiWebhookEvent::class, 'webhookEventId');
 	}

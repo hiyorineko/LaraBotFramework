@@ -16,8 +16,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $type
  * @property string $originalContentUrl
  * @property string $previewImageUrl
- * @property string $fileName
- * @property string $path
  *
  * @property MessagingApiMassage $messaging_api_massage
  *
@@ -40,11 +38,9 @@ class MessagingApiMassageVideo extends Model
 		'type',
 		'originalContentUrl',
 		'previewImageUrl',
-		'fileName',
-		'path'
 	];
 
-	public function messaging_api_massage()
+	public function massage()
 	{
 		return $this->belongsTo(MessagingApiMassage::class, 'messageId');
 	}

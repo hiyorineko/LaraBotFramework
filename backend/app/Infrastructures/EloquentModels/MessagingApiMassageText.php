@@ -39,7 +39,7 @@ class MessagingApiMassageText extends Model
 		'mention'
 	];
 
-	public function messaging_api_massage()
+	public function massage()
 	{
 		return $this->belongsTo(MessagingApiMassage::class, 'messageId');
 	}
