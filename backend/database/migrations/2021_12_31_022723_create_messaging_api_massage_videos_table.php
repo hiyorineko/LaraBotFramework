@@ -24,10 +24,6 @@ class CreateMessagingApiMassageVideosTable extends Migration
             $table->string('type')->nullable();
             $table->string('originalContentUrl')->nullable();
             $table->string('previewImageUrl')->nullable();
-
-            // アプリケーション上の配置
-            $table->string('fileName')->nullable();
-            $table->string('path')->nullable();
         });
     }
 

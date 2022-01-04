@@ -21,10 +21,7 @@ class CreateMessagingApiMassageFilesTable extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->integer('fileSize');
-
-            // アプリケーション上の配置
             $table->string('fileName')->nullable();
-            $table->string('path')->nullable();
         });
     }
 

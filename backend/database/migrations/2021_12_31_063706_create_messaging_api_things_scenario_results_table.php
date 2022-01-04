@@ -24,8 +24,8 @@ class CreateMessagingApiThingsScenarioResultsTable extends Migration
             $table->string('thingsDeviceId')->nullable();
             $table->string('thingsResultScenarioId')->nullable();
             $table->integer('thingsResultRevision');
-            $table->integer('thingsResultStartTime');
-            $table->integer('thingsResultEndTime');
+            $table->bigInteger('thingsResultStartTime');
+            $table->bigInteger('thingsResultEndTime');
             $table->string('thingsResultResultCode')->nullable();
             $table->json('thingsResultActionResults')->nullable();
             $table->string('thingsResultBleNotificationPayload')->nullable();

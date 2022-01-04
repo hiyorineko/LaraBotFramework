@@ -23,11 +23,6 @@ class CreateMessagingApiMassageAudiosTable extends Migration
             $table->integer("duration");
             $table->string('type')->nullable();
             $table->string('originalContentUrl')->nullable();
-            $table->string('previewImageUrl')->nullable();
-
-            // アプリケーション上の配置
-            $table->string('fileName')->nullable();
-            $table->string('path')->nullable();
         });
     }
 
