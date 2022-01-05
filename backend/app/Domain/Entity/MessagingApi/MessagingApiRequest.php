@@ -183,10 +183,15 @@ class MessagingApiRequest implements BotApiRequest
         );
     }
 
+    /**
+     * @return string
+     */
     public function getMessageText() : string
     {
         foreach ($this->events as $event) {
-            return $event->message->text->text ?? '';
+            if ($event->message && $event->message->text) {
+                return $event->message->text->text;
+            }
         }
         return '';
     }
@@ -197,6 +202,9 @@ class MessagingApiRequest implements BotApiRequest
     public function getReplyToken() : string
     {
         foreach ($this->events as $event) {
+            if ($event->message) {
+                return $event->message->text->text;
+            }
             return $event->message->replyToken ?? '';
         }
         return '';
