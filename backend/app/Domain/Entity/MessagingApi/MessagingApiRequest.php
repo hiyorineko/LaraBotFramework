@@ -39,10 +39,13 @@ class MessagingApiRequest implements BotApiRequest
 
     /**
      * @param array $eventInput
-     * @return Message
+     * @return ?Message
      */
-    private function createMessage(array $eventInput) : Message
+    private function createMessage(array $eventInput) : ?Message
     {
+        if ($eventInput['type'] !== 'message' ) {
+            return null;
+        }
         return new Message(
             $eventInput['replyToken'],
             $this->createText($eventInput['message']),

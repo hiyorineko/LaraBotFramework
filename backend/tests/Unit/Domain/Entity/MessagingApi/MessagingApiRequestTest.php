@@ -3,9 +3,11 @@ namespace Tests\Unit\Domain\Entity\MessagingApi;
 
 use App\Domain\Entity\MessagingApi\MessagingApiRequest;
 use App\Domain\ValueObject\MessagingApi\Audio;
+use App\Domain\ValueObject\MessagingApi\Event;
 use App\Domain\ValueObject\MessagingApi\File;
 use App\Domain\ValueObject\MessagingApi\Image;
 use App\Domain\ValueObject\MessagingApi\Location;
+use App\Domain\ValueObject\MessagingApi\Message;
 use App\Domain\ValueObject\MessagingApi\Sticker;
 use App\Domain\ValueObject\MessagingApi\Text;
 use App\Domain\ValueObject\MessagingApi\Video;
@@ -40,9 +42,145 @@ class MessagingApiRequestTest extends TestCase
             ->getMock();
     }
 
-    private function test_createMessage()
+    public function test__construct()
     {
+        $input = $this->getEventInput();
+        $request = new MessagingApiRequest($input);
+        $reflection = new ReflectionClass($request);
 
+        $property = $reflection->getProperty('events');
+        $property->setAccessible(true);
+        $events = $property->getValue($request);
+
+        // 検証
+        $this->assertCount(3, $events);
+        $this->assertInstanceOf(Event::class, $events[0]);
+        $this->assertEquals($input['events'][0]['source']['type'], $events[0]->sourceType);
+        $this->assertEquals($input['events'][0]['source']['userId'], $events[0]->userId);
+        $this->assertNull($events[0]->groupId);
+        $this->assertNull($events[0]->roomId);
+        $this->assertEquals($input['events'][0]['timestamp'], $events[0]->timestamp);
+
+        $this->assertInstanceOf(Event::class, $events[1]);
+        $this->assertEquals($input['events'][1]['source']['type'], $events[1]->sourceType);
+        $this->assertEquals($input['events'][1]['source']['userId'], $events[1]->userId);
+        $this->assertEquals($input['events'][1]['source']['groupId'], $events[1]->groupId);
+        $this->assertNull($events[1]->roomId);
+        $this->assertEquals($input['events'][1]['timestamp'], $events[1]->timestamp);
+
+        $this->assertInstanceOf(Event::class, $events[2]);
+        $this->assertEquals($input['events'][2]['source']['type'], $events[2]->sourceType);
+        $this->assertEquals($input['events'][2]['source']['userId'], $events[2]->userId);
+        $this->assertNull($events[2]->groupId);
+        $this->assertEquals($input['events'][2]['source']['roomId'], $events[2]->roomId);
+        $this->assertEquals($input['events'][2]['timestamp'], $events[2]->timestamp);
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function test_createMessage()
+    {
+        $input = $this->getEventMessageInput();
+
+        /**
+         * パターン1 テキストメッセージ
+         */
+        $input['message'] = $this->getEventMessageTextInput();
+
+        // 実行
+        $reflection = new ReflectionClass($this->request);
+        $method = $reflection->getMethod('createMessage');
+        $method->setAccessible(true);
+        $valueObject = $method->invoke($this->request, $input);
+
+        // 検証
+        $this->assertInstanceOf(Message::class, $valueObject);
+        $this->assertEquals($input['replyToken'], $valueObject->replyToken);
+        $this->assertNotNull($valueObject->text);
+
+
+        /**
+         * パターン2 画像メッセージ
+         */
+        $input['message'] = $this->getEventMessageImageInput();
+
+        // 実行
+        $valueObject = $method->invoke($this->request, $input);
+
+        // 検証
+        $this->assertInstanceOf(Message::class, $valueObject);
+        $this->assertEquals($input['replyToken'], $valueObject->replyToken);
+        $this->assertNotNull($valueObject->image);
+
+        /**
+         * パターン3 動画メッセージ
+         */
+        $input['message'] = $this->getEventMessageVideoInput();
+
+        // 実行
+        $valueObject = $method->invoke($this->request, $input);
+
+        // 検証
+        $this->assertInstanceOf(Message::class, $valueObject);
+        $this->assertEquals($input['replyToken'], $valueObject->replyToken);
+        $this->assertNotNull($valueObject->video);
+
+
+        /**
+         * パターン4 音声メッセージ
+         */
+        $input['message'] = $this->getEventMessageAudioInput();
+
+        // 実行
+        $valueObject = $method->invoke($this->request, $input);
+
+        // 検証
+        $this->assertInstanceOf(Message::class, $valueObject);
+        $this->assertEquals($input['replyToken'], $valueObject->replyToken);
+        $this->assertNotNull($valueObject->audio);
+
+
+        /**
+         * パターン5 ファイルメッセージ
+         */
+        $input['message'] = $this->getEventMessageFileInput();
+
+        // 実行
+        $valueObject = $method->invoke($this->request, $input);
+
+        // 検証
+        $this->assertInstanceOf(Message::class, $valueObject);
+        $this->assertEquals($input['replyToken'], $valueObject->replyToken);
+        $this->assertNotNull($valueObject->file);
+
+
+        /**
+         * パターン6 位置情報メッセージ
+         */
+        $input['message'] = $this->getEventMessageLocationInput();
+
+        // 実行
+        $valueObject = $method->invoke($this->request, $input);
+
+        // 検証
+        $this->assertInstanceOf(Message::class, $valueObject);
+        $this->assertEquals($input['replyToken'], $valueObject->replyToken);
+        $this->assertNotNull($valueObject->location);
+
+
+        /**
+         * パターン7 スタンプメッセージ
+         */
+        $input['message'] = $this->getEventMessageStickerInput();
+
+        // 実行
+        $valueObject = $method->invoke($this->request, $input);
+
+        // 検証
+        $this->assertInstanceOf(Message::class, $valueObject);
+        $this->assertEquals($input['replyToken'], $valueObject->replyToken);
+        $this->assertNotNull($valueObject->sticker);
     }
 
     /**
