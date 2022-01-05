@@ -10,6 +10,8 @@
 
 ## 環境
 
+開発環境のテンプレートに [ucan-lab / docker-laravel](https://github.com/ucan-lab/docker-laravel) を使わせていただいています。
+
 ### プロジェクトのビルド
 ```shell
 git clone https://github.com/hiyorineko/LaraBotFramework.git
