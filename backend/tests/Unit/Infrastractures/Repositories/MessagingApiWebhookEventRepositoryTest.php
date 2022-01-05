@@ -267,6 +267,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
         // 検証
         $record = MessagingApiMassage::where(['webhookEventId' => $event->id])->first();
         $this->assertNotNull($record);
+        $this->assertEquals($input['replyToken'], $record->replyToken);
         $this->assertDatabaseHas('messaging_api_massage_texts', ['messageId' => $record->id]);
 
         /**
@@ -281,6 +282,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
         // 検証
         $record = MessagingApiMassage::where(['webhookEventId' => $event->id])->first();
         $this->assertNotNull($record);
+        $this->assertEquals($input['replyToken'], $record->replyToken);
         $this->assertDatabaseHas('messaging_api_massage_images', ['messageId' => $record->id]);
 
 
@@ -296,6 +298,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
         // 検証
         $record = MessagingApiMassage::where(['webhookEventId' => $event->id])->first();
         $this->assertNotNull($record);
+        $this->assertEquals($input['replyToken'], $record->replyToken);
         $this->assertDatabaseHas('messaging_api_massage_videos', ['messageId' => $record->id]);
 
 
@@ -311,6 +314,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
         // 検証
         $record = MessagingApiMassage::where(['webhookEventId' => $event->id])->first();
         $this->assertNotNull($record);
+        $this->assertEquals($input['replyToken'], $record->replyToken);
         $this->assertDatabaseHas('messaging_api_massage_audios', ['messageId' => $record->id]);
 
 
@@ -326,6 +330,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
         // 検証
         $record = MessagingApiMassage::where(['webhookEventId' => $event->id])->first();
         $this->assertNotNull($record);
+        $this->assertEquals($input['replyToken'], $record->replyToken);
         $this->assertDatabaseHas('messaging_api_massage_files', ['messageId' => $record->id]);
 
 
@@ -341,6 +346,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
         // 検証
         $record = MessagingApiMassage::where(['webhookEventId' => $event->id])->first();
         $this->assertNotNull($record);
+        $this->assertEquals($input['replyToken'], $record->replyToken);
         $this->assertDatabaseHas('messaging_api_massage_locations', ['messageId' => $record->id]);
 
 
@@ -356,8 +362,8 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
         // 検証
         $record = MessagingApiMassage::where(['webhookEventId' => $event->id])->first();
         $this->assertNotNull($record);
+        $this->assertEquals($input['replyToken'], $record->replyToken);
         $this->assertDatabaseHas('messaging_api_massage_stickers', ['messageId' => $record->id]);
-
     }
 
     /**
