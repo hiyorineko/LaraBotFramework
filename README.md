@@ -12,8 +12,8 @@
 
 ### プロジェクトのビルド
 ```shell
-git clone https://github.com/hiyorineko/linebot.git
-cd linebot
+git clone https://github.com/hiyorineko/LaraBotFramework.git
+cd LaraBotFramework
 make init
 ```
 
