@@ -9,16 +9,16 @@ class Sticker {
     public readonly string $stickerId;
     public readonly string $stickerResourceType;
     public readonly array $keywords;
-    public readonly string $text;
+    public readonly ?string $text;
 
     /**
      * @param string $packageId
      * @param string $stickerId
      * @param string $stickerResourceType
      * @param array $keywords
-     * @param string $text
+     * @param ?string $text
      */
-    public function __construct(string $packageId, string $stickerId, string $stickerResourceType, array $keywords, string $text)
+    public function __construct(string $packageId, string $stickerId, string $stickerResourceType, array $keywords, ?string $text)
     {
         $this->packageId = $packageId;
         $this->stickerId = $stickerId;

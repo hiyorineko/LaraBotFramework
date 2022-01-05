@@ -6,21 +6,21 @@ use App\UseCases\UseCase;
 interface BotApiResponse {
 
     /**
-     * リクエストデータの内容に応じてUseCaseを実行
+     * BotApiRequestの内容に応じてUseCaseを実行
      * @param BotApiRequest $request
      * @return void
      */
     function useCaseRouter(BotApiRequest $request) : void;
 
     /**
-     * リクエストデータがユースケースに合致するかどうかを検証
+     * BotApiRequestがUseCaseに合致するかどうかを検証
      * @param UseCase $useCase
-     * @param BotApiRequest $request
      * @return mixed
      */
-    function isVerifiedRequest(UseCase $useCase, BotApiRequest $request): mixed;
+    function useCaseVerify(UseCase $useCase): mixed;
+
     /**
-     * ユースケースの処理を実行
+     * UseCaseの処理を実行
      * @param UseCase $useCase
      */
     function useCaseExec(UseCase $useCase);

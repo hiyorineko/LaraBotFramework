@@ -21,16 +21,16 @@ class MessagingApiResponse implements BotApiResponse
      */
     public function useCaseRouter(BotApiRequest $request) : void
     {
-        foreach ($this->kernel->getUseCases(new MessagingApi()) as $useCase) {
-            if ($this->isVerifiedRequest($useCase, $request) === true) {
+        foreach ($this->kernel->getUseCases(new MessagingApi(), $request) as $useCase) {
+            if ($this->useCaseVerify($useCase) === true) {
                 $this->useCaseExec($useCase);
             }
         }
     }
 
-    public function isVerifiedRequest(UseCase $useCase, BotApiRequest $request): bool
+    public function useCaseVerify(UseCase $useCase): bool
     {
-        return $useCase->verify($request);
+        return $useCase->verify();
     }
 
     public function useCaseExec(UseCase $useCase)

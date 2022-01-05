@@ -56,10 +56,10 @@ class MessagingApiRequest implements BotApiRequest
     }
 
     /**
-     * @param mixed $message
+     * @param array $message
      * @return Text|null
      */
-    private function createText(mixed $message) : ?Text
+    private function createText(array $message) : ?Text
     {
         if ($message['type'] !== 'text') {
             return null;
@@ -73,10 +73,10 @@ class MessagingApiRequest implements BotApiRequest
     }
 
     /**
-     * @param mixed $message
+     * @param array $message
      * @return Image|null
      */
-    private function createImage(mixed $message) : ?Image
+    private function createImage(array $message) : ?Image
     {
         if ($message['type'] !== 'image') {
             return null;
@@ -93,10 +93,10 @@ class MessagingApiRequest implements BotApiRequest
     }
 
     /**
-     * @param mixed $message
+     * @param array $message
      * @return Video|null
      */
-    private function createVideo(mixed $message) : ?Video
+    private function createVideo(array $message) : ?Video
     {
         if ($message['type'] !== 'video') {
             return null;
@@ -111,10 +111,10 @@ class MessagingApiRequest implements BotApiRequest
     }
 
     /**
-     * @param mixed $message
+     * @param array $message
      * @return Audio|null
      */
-    private function createAudio(mixed $message) : ?Audio
+    private function createAudio(array $message) : ?Audio
     {
         if ($message['type'] !== 'audio') {
             return null;
@@ -128,10 +128,10 @@ class MessagingApiRequest implements BotApiRequest
     }
 
     /**
-     * @param mixed $message
+     * @param array $message
      * @return File|null
      */
-    private function createFile(mixed $message) : ?File
+    private function createFile(array $message) : ?File
     {
         if ($message['type'] !== 'file') {
             return null;
@@ -144,10 +144,10 @@ class MessagingApiRequest implements BotApiRequest
     }
 
     /**
-     * @param mixed $message
+     * @param array $message
      * @return Location|null
      */
-    private function createLocation(mixed $message) : ?Location
+    private function createLocation(array $message) : ?Location
     {
         if ($message['type'] !== 'location') {
             return null;
@@ -162,10 +162,10 @@ class MessagingApiRequest implements BotApiRequest
     }
 
     /**
-     * @param mixed $message
+     * @param array $message
      * @return Sticker|null
      */
-    private function createSticker(mixed $message) : ?Sticker
+    private function createSticker(array $message) : ?Sticker
     {
         if ($message['type'] !== 'sticker') {
             return null;
