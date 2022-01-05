@@ -86,7 +86,10 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
         );
 
         // 実行
-        $events = $this->repository->createEvents($input);
+        $reflection = new ReflectionClass($this->repository);
+        $method = $reflection->getMethod('createEvents');
+        $method->setAccessible(true);
+        $events = $method->invoke($this->repository, $input);
 
         // 検証
         $this->assertEquals($input['destination'], $events[0]->destination);
@@ -117,7 +120,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function test_setEventDetail()
+    public function test_createEventDetail()
     {
         /**
          * パターン1 メッセージイベント
@@ -128,7 +131,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
 
         // 実行
         $reflection = new ReflectionClass($this->repository);
-        $method = $reflection->getMethod('setEventDetail');
+        $method = $reflection->getMethod('createEventDetail');
         $method->setAccessible(true);
         $method->invoke($this->repository, $event->id, $input);
 
@@ -298,7 +301,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function test_setEventMessage()
+    public function test_createEventMessage()
     {
         $input = $this->getEventMessageInput();
 
@@ -310,7 +313,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
 
         // 実行
         $reflection = new ReflectionClass($this->repository);
-        $method = $reflection->getMethod('setEventMessage');
+        $method = $reflection->getMethod('createEventMessage');
         $method->setAccessible(true);
         $method->invoke($this->repository, $event->id, $input);
 
@@ -439,7 +442,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function test_setEventMessageText()
+    public function test_createEventMessageText()
     {
         // テストデータ
         $input = $this->getEventMessageTextInput();
@@ -450,7 +453,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
 
         // 実行
         $reflection = new ReflectionClass($this->repository);
-        $method = $reflection->getMethod('setEventMessageText');
+        $method = $reflection->getMethod('createEventMessageText');
         $method->setAccessible(true);
         $method->invoke($this->repository, $message->id, $input);
 
@@ -483,7 +486,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function test_setEventMessageImage()
+    public function test_createEventMessageImage()
     {
         // テストデータ
         $input = $this->getEventMessageImageInput();
@@ -494,7 +497,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
 
         // 実行
         $reflection = new ReflectionClass($this->repository);
-        $method = $reflection->getMethod('setEventMessageImage');
+        $method = $reflection->getMethod('createEventMessageImage');
         $method->setAccessible(true);
         $method->invoke($this->repository, $message->id, $input);
 
@@ -525,7 +528,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function test_setEventMessageVideo()
+    public function test_createEventMessageVideo()
     {
         // テストデータ
         $input = $this->getEventMessageVideoInput();
@@ -536,7 +539,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
 
         // 実行
         $reflection = new ReflectionClass($this->repository);
-        $method = $reflection->getMethod('setEventMessageVideo');
+        $method = $reflection->getMethod('createEventMessageVideo');
         $method->setAccessible(true);
         $method->invoke($this->repository, $message->id, $input);
 
@@ -564,7 +567,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function test_setEventMessageAudio()
+    public function test_createEventMessageAudio()
     {
         // テストデータ
         $input = $this->getEventMessageAudioInput();
@@ -575,7 +578,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
 
         // 実行
         $reflection = new ReflectionClass($this->repository);
-        $method = $reflection->getMethod('setEventMessageAudio');
+        $method = $reflection->getMethod('createEventMessageAudio');
         $method->setAccessible(true);
         $method->invoke($this->repository, $message->id, $input);
 
@@ -599,7 +602,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function test_setEventMessageFile()
+    public function test_createEventMessageFile()
     {
         // テストデータ
         $input = $this->getEventMessageFileInput();
@@ -610,7 +613,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
 
         // 実行
         $reflection = new ReflectionClass($this->repository);
-        $method = $reflection->getMethod('setEventMessageFile');
+        $method = $reflection->getMethod('createEventMessageFile');
         $method->setAccessible(true);
         $method->invoke($this->repository, $message->id, $input);
 
@@ -635,7 +638,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function test_setEventMessageLocation()
+    public function test_createEventMessageLocation()
     {
         // テストデータ
         $input = $this->getEventMessageLocationInput();
@@ -646,7 +649,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
 
         // 実行
         $reflection = new ReflectionClass($this->repository);
-        $method = $reflection->getMethod('setEventMessageLocation');
+        $method = $reflection->getMethod('createEventMessageLocation');
         $method->setAccessible(true);
         $method->invoke($this->repository, $message->id, $input);
 
@@ -688,7 +691,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function test_setEventMessageSticker()
+    public function test_createEventMessageSticker()
     {
         // テストデータ
         $input = $this->getEventMessageStickerInput();
@@ -699,7 +702,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
 
         // 実行
         $reflection = new ReflectionClass($this->repository);
-        $method = $reflection->getMethod('setEventMessageSticker');
+        $method = $reflection->getMethod('createEventMessageSticker');
         $method->setAccessible(true);
         $method->invoke($this->repository, $message->id, $input);
 
@@ -733,7 +736,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function test_setEventUnsend()
+    public function test_createEventUnsend()
     {
         // テストデータ
         $input = $this->getEventUnsendInput();
@@ -741,7 +744,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
 
         // 実行
         $reflection = new ReflectionClass($this->repository);
-        $method = $reflection->getMethod('setEventUnsend');
+        $method = $reflection->getMethod('createEventUnsend');
         $method->setAccessible(true);
         $method->invoke($this->repository, $event->id, $input);
 
@@ -767,7 +770,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function test_setEventFollow()
+    public function test_createEventFollow()
     {
         // テストデータ
         $input = $this->getEventFollowInput();
@@ -775,7 +778,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
 
         // 実行
         $reflection = new ReflectionClass($this->repository);
-        $method = $reflection->getMethod('setEventFollow');
+        $method = $reflection->getMethod('createEventFollow');
         $method->setAccessible(true);
         $method->invoke($this->repository, $event->id, $input);
 
@@ -800,7 +803,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function test_setEventUnfollow()
+    public function test_createEventUnfollow()
     {
         // テストデータ
         $input = $this->getEventUnfollowInput();
@@ -808,7 +811,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
 
         // 実行
         $reflection = new ReflectionClass($this->repository);
-        $method = $reflection->getMethod('setEventUnfollow');
+        $method = $reflection->getMethod('createEventUnfollow');
         $method->setAccessible(true);
         $method->invoke($this->repository, $event->id, $input);
 
@@ -833,7 +836,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function test_setEventJoin()
+    public function test_createEventJoin()
     {
         // テストデータ
         $input = $this->getEventJoinInput();
@@ -841,7 +844,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
 
         // 実行
         $reflection = new ReflectionClass($this->repository);
-        $method = $reflection->getMethod('setEventJoin');
+        $method = $reflection->getMethod('createEventJoin');
         $method->setAccessible(true);
         $method->invoke($this->repository, $event->id, $input);
 
@@ -866,7 +869,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function test_setEventLeave()
+    public function test_createEventLeave()
     {
         // テストデータ
         $input = $this->getEventLeaveInput();
@@ -874,7 +877,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
 
         // 実行
         $reflection = new ReflectionClass($this->repository);
-        $method = $reflection->getMethod('setEventLeave');
+        $method = $reflection->getMethod('createEventLeave');
         $method->setAccessible(true);
         $method->invoke($this->repository, $event->id, $input);
 
@@ -911,7 +914,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function test_setEventMemberJoined()
+    public function test_createEventMemberJoined()
     {
         // テストデータ
         $input = $this->getEventMemberJoinedInput();
@@ -919,7 +922,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
 
         // 実行
         $reflection = new ReflectionClass($this->repository);
-        $method = $reflection->getMethod('setEventMemberJoined');
+        $method = $reflection->getMethod('createEventMemberJoined');
         $method->setAccessible(true);
         $method->invoke($this->repository, $event->id, $input);
 
@@ -958,7 +961,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function test_setEventMemberLeft()
+    public function test_createEventMemberLeft()
     {
         // テストデータ
         $input = $this->getEventMemberLeftInput();
@@ -966,7 +969,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
 
         // 実行
         $reflection = new ReflectionClass($this->repository);
-        $method = $reflection->getMethod('setEventMemberLeft');
+        $method = $reflection->getMethod('createEventMemberLeft');
         $method->setAccessible(true);
         $method->invoke($this->repository, $event->id, $input);
 
@@ -1002,7 +1005,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function test_setEventPostback()
+    public function test_createEventPostback()
     {
         // テストデータ
         $input = $this->getEventPostbackInput();
@@ -1010,7 +1013,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
 
         // 実行
         $reflection = new ReflectionClass($this->repository);
-        $method = $reflection->getMethod('setEventPostback');
+        $method = $reflection->getMethod('createEventPostback');
         $method->setAccessible(true);
         $method->invoke($this->repository, $event->id, $input);
 
@@ -1041,7 +1044,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function test_setEventVideoPlayComplete()
+    public function test_createEventVideoPlayComplete()
     {
         // テストデータ
         $input = $this->getEventVideoPlayCompleteInput();
@@ -1049,7 +1052,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
 
         // 実行
         $reflection = new ReflectionClass($this->repository);
-        $method = $reflection->getMethod('setEventVideoPlayComplete');
+        $method = $reflection->getMethod('createEventVideoPlayComplete');
         $method->setAccessible(true);
         $method->invoke($this->repository, $event->id, $input);
 
@@ -1081,7 +1084,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function test_setEventBeacon()
+    public function test_createEventBeacon()
     {
         // テストデータ
         $input = $this->getEventBeaconInput();
@@ -1089,7 +1092,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
 
         // 実行
         $reflection = new ReflectionClass($this->repository);
-        $method = $reflection->getMethod('setEventBeacon');
+        $method = $reflection->getMethod('createEventBeacon');
         $method->setAccessible(true);
         $method->invoke($this->repository, $event->id, $input);
 
@@ -1122,7 +1125,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function test_setEventAccountLink()
+    public function test_createEventAccountLink()
     {
         // テストデータ
         $input = $this->getEventAccountLinkInput();
@@ -1130,7 +1133,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
 
         // 実行
         $reflection = new ReflectionClass($this->repository);
-        $method = $reflection->getMethod('setEventAccountLink');
+        $method = $reflection->getMethod('createEventAccountLink');
         $method->setAccessible(true);
         $method->invoke($this->repository, $event->id, $input);
 
@@ -1161,7 +1164,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function test_setEventThings()
+    public function test_createEventThings()
     {
         /**
          * パターン1 #デバイス連携イベント
@@ -1185,7 +1188,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
 
         // 実行
         $reflection = new ReflectionClass($this->repository);
-        $method = $reflection->getMethod('setEventThings');
+        $method = $reflection->getMethod('createEventThings');
         $method->setAccessible(true);
         $method->invoke($this->repository, $event->id, $input);
         // 検証
@@ -1262,7 +1265,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function test_setEventThingsLink()
+    public function test_createEventThingsLink()
     {
         // テストデータ
         $input = array(
@@ -1286,7 +1289,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
 
         // 実行
         $reflection = new ReflectionClass($this->repository);
-        $method = $reflection->getMethod('setEventThingsLink');
+        $method = $reflection->getMethod('createEventThingsLink');
         $method->setAccessible(true);
         $method->invoke($this->repository, $message->id, $input);
 
@@ -1299,7 +1302,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function test_setEventThingsUnlink()
+    public function test_createEventThingsUnlink()
     {
         // テストデータ
         $input = array(
@@ -1320,7 +1323,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
 
         // 実行
         $reflection = new ReflectionClass($this->repository);
-        $method = $reflection->getMethod('setEventThingsUnlink');
+        $method = $reflection->getMethod('createEventThingsUnlink');
         $method->setAccessible(true);
         $method->invoke($this->repository, $event->id, $input);
 
@@ -1333,7 +1336,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function test_setEventThingsScenarioResult()
+    public function test_createEventThingsScenarioResult()
     {
         // テストデータ
         $input = array(
@@ -1369,7 +1372,7 @@ class MessagingApiWebhookEventRepositoryTest extends TestCase
 
         // 実行
         $reflection = new ReflectionClass($this->repository);
-        $method = $reflection->getMethod('setEventThingsScenarioResult');
+        $method = $reflection->getMethod('createEventThingsScenarioResult');
         $method->setAccessible(true);
         $method->invoke($this->repository, $event->id, $input);
 

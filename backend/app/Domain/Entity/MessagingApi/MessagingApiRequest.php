@@ -11,9 +11,9 @@ use App\Domain\ValueObject\MessagingApi\Message;
 use App\Domain\ValueObject\MessagingApi\Sticker;
 use App\Domain\ValueObject\MessagingApi\Text;
 use App\Domain\ValueObject\MessagingApi\Video;
-use Illuminate\Support\Facades\Log;
 
-class MessagingApiRequest implements BotApiRequest {
+class MessagingApiRequest implements BotApiRequest
+{
 
     /**
      * @var Event[]
@@ -37,7 +37,10 @@ class MessagingApiRequest implements BotApiRequest {
         $this->events = $events;
     }
 
-
+    /**
+     * @param array $eventInput
+     * @return Message
+     */
     private function createMessage(array $eventInput) : Message
     {
         return new Message(
@@ -52,6 +55,10 @@ class MessagingApiRequest implements BotApiRequest {
         );
     }
 
+    /**
+     * @param mixed $message
+     * @return Text|null
+     */
     private function createText(mixed $message) : ?Text
     {
         if ($message['type'] !== 'text') {
@@ -65,6 +72,10 @@ class MessagingApiRequest implements BotApiRequest {
         );
     }
 
+    /**
+     * @param mixed $message
+     * @return Image|null
+     */
     private function createImage(mixed $message) : ?Image
     {
         if ($message['type'] !== 'image') {
@@ -81,6 +92,10 @@ class MessagingApiRequest implements BotApiRequest {
         );
     }
 
+    /**
+     * @param mixed $message
+     * @return Video|null
+     */
     private function createVideo(mixed $message) : ?Video
     {
         if ($message['type'] !== 'video') {
@@ -95,6 +110,10 @@ class MessagingApiRequest implements BotApiRequest {
         );
     }
 
+    /**
+     * @param mixed $message
+     * @return Audio|null
+     */
     private function createAudio(mixed $message) : ?Audio
     {
         if ($message['type'] !== 'audio') {
@@ -108,6 +127,10 @@ class MessagingApiRequest implements BotApiRequest {
         );
     }
 
+    /**
+     * @param mixed $message
+     * @return File|null
+     */
     private function createFile(mixed $message) : ?File
     {
         if ($message['type'] !== 'file') {
@@ -120,6 +143,10 @@ class MessagingApiRequest implements BotApiRequest {
         );
     }
 
+    /**
+     * @param mixed $message
+     * @return Location|null
+     */
     private function createLocation(mixed $message) : ?Location
     {
         if ($message['type'] !== 'location') {
@@ -134,6 +161,10 @@ class MessagingApiRequest implements BotApiRequest {
         );
     }
 
+    /**
+     * @param mixed $message
+     * @return Sticker|null
+     */
     private function createSticker(mixed $message) : ?Sticker
     {
         if ($message['type'] !== 'sticker') {
@@ -157,6 +188,9 @@ class MessagingApiRequest implements BotApiRequest {
         return '';
     }
 
+    /**
+     * @return string
+     */
     public function getReplyToken() : string
     {
         foreach ($this->events as $event) {

@@ -3,26 +3,25 @@ namespace App\UseCases\MessagingApi;
 
 use App\Domain\Entity\MessagingApi\MessagingApiRequest;
 use App\Domain\Entity\BotApiRequest;
-use App\Infrastructures\BotApi\MessagingApi;
-use App\UseCases\Action;
 use App\Infrastructures\BotApi\BotApi;
+use App\UseCases\UseCase;
 
-class ExampleAction implements Action {
+class ExampleUseCase implements UseCase {
 
     private BotApi $api;
     private MessagingApiRequest $request;
 
-    public function __construct(MessagingApi $api) {
+    public function __construct(BotApi $api, BotApiRequest $request) {
         $this->api = $api;
+        $this->request = $request;
     }
 
-    public function verify(BotApiRequest $request): bool
+    public function verify() : bool
     {
-        $this->request = $request;
         return true;
     }
 
-    public function exec()
+    public function exec() : void
     {
         $text = $this->request->getMessageText();
         $replyToken = $this->request->getReplyToken();

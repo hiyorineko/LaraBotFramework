@@ -1,6 +1,7 @@
 <?php
 namespace App\Infrastructures\Repositories;
 
+use App\Domain\Entity\BotApiRequest;
 use App\Domain\Entity\MessagingApi\MessagingApiRequest;
 use App\Infrastructures\EloquentModels\MessagingApiAccountLink;
 use App\Infrastructures\EloquentModels\MessagingApiBeacon;
@@ -29,23 +30,21 @@ use Illuminate\Support\Facades\DB;
 
 class MessagingApiWebhookEventRepository implements Repository
 {
-
-    /**
-     * @param mixed $requestBody
-     * @return MessagingApiRequest
-     */
-    public function getRequestEntity(mixed $requestBody)
+    public function getRequestEntity(array $requestBody) : BotApiRequest
     {
-        $this->createEvents($requestBody);
         return new MessagingApiRequest($requestBody);
     }
 
+    public function storeRequest(array $requestBody) : void
+    {
+        $this->createEvents($requestBody);
+    }
+
     /**
-     * リクエストをオブジェクトにマッピング
-     * @param mixed $requestBody
+     * @param array $requestBody
      * @return MessagingApiWebhookEvent[]
      */
-    public function createEvents(mixed $requestBody): array
+    private function createEvents(array $requestBody) : array
     {
         DB::beginTransaction();
         $events = [];
@@ -59,44 +58,44 @@ class MessagingApiWebhookEventRepository implements Repository
                 'roomId' => $eventInput['source']['roomId'] ?? null,
                 'timestamp' => $eventInput['timestamp'],
             ]);
-            $this->setEventDetail($event->id, $eventInput);
+            $this->createEventDetail($event->id, $eventInput);
             $events[] = $event;
         }
         DB::commit();
         return $events;
     }
 
-    private function setEventDetail($eventId, $eventInput) {
+    private function createEventDetail($eventId, $eventInput) {
         if ($eventInput['type'] === 'message') {
-            $this->setEventMessage($eventId, $eventInput);
+            $this->createEventMessage($eventId, $eventInput);
         } elseif ($eventInput['type'] === 'unsend') {
-            $this->setEventUnsend($eventId, $eventInput);
+            $this->createEventUnsend($eventId, $eventInput);
         } elseif ($eventInput['type'] === 'follow') {
-            $this->setEventFollow($eventId, $eventInput);
+            $this->createEventFollow($eventId, $eventInput);
         } elseif ($eventInput['type'] === 'unfollow') {
-            $this->setEventUnfollow($eventId, $eventInput);
+            $this->createEventUnfollow($eventId, $eventInput);
         } elseif ($eventInput['type'] === 'join') {
-            $this->setEventJoin($eventId, $eventInput);
+            $this->createEventJoin($eventId, $eventInput);
         } elseif ($eventInput['type'] === 'leave') {
-            $this->setEventLeave($eventId, $eventInput);
+            $this->createEventLeave($eventId, $eventInput);
         } elseif ($eventInput['type'] === 'memberJoined') {
-            $this->setEventMemberJoined($eventId, $eventInput);
+            $this->createEventMemberJoined($eventId, $eventInput);
         } elseif ($eventInput['type'] === 'memberLeft') {
-            $this->setEventMemberLeft($eventId, $eventInput);
+            $this->createEventMemberLeft($eventId, $eventInput);
         } elseif ($eventInput['type'] === 'postback') {
-            $this->setEventPostback($eventId, $eventInput);
+            $this->createEventPostback($eventId, $eventInput);
         } elseif ($eventInput['type'] === 'videoPlayComplete') {
-            $this->setEventVideoPlayComplete($eventId, $eventInput);
+            $this->createEventVideoPlayComplete($eventId, $eventInput);
         } elseif ($eventInput['type'] === 'beacon') {
-            $this->setEventBeacon($eventId, $eventInput);
+            $this->createEventBeacon($eventId, $eventInput);
         } elseif ($eventInput['type'] === 'accountLink') {
-            $this->setEventAccountLink($eventId, $eventInput);
+            $this->createEventAccountLink($eventId, $eventInput);
         } elseif ($eventInput['type'] === 'things') {
-            $this->setEventThings($eventId, $eventInput);
+            $this->createEventThings($eventId, $eventInput);
         }
     }
 
-    private function setEventMessage($eventId, $eventInput)
+    private function createEventMessage($eventId, $eventInput)
     {
 
         $message = MessagingApiMassage::create([
@@ -105,24 +104,24 @@ class MessagingApiWebhookEventRepository implements Repository
         ]);
 
         if ($eventInput['message']['type'] === 'text') {
-            $this->setEventMessageText($message->id, $eventInput['message']);
+            $this->createEventMessageText($message->id, $eventInput['message']);
         } elseif ($eventInput['message']['type'] === 'image') {
-            $this->setEventMessageImage($message->id, $eventInput['message']);
+            $this->createEventMessageImage($message->id, $eventInput['message']);
         } elseif ($eventInput['message']['type'] === 'video') {
-            $this->setEventMessageVideo($message->id, $eventInput['message']);
+            $this->createEventMessageVideo($message->id, $eventInput['message']);
         } elseif ($eventInput['message']['type'] === 'audio') {
-            $this->setEventMessageAudio($message->id, $eventInput['message']);
+            $this->createEventMessageAudio($message->id, $eventInput['message']);
         } elseif ($eventInput['message']['type'] === 'file') {
-            $this->setEventMessageFile($message->id, $eventInput['message']);
+            $this->createEventMessageFile($message->id, $eventInput['message']);
         } elseif ($eventInput['message']['type'] === 'location') {
-            $this->setEventMessageLocation($message->id, $eventInput['message']);
+            $this->createEventMessageLocation($message->id, $eventInput['message']);
         } elseif ($eventInput['message']['type'] === 'sticker') {
-            $this->setEventMessageSticker($message->id, $eventInput['message']);
+            $this->createEventMessageSticker($message->id, $eventInput['message']);
         }
 
     }
 
-    private function setEventMessageText($messageId, $messageInput)
+    private function createEventMessageText($messageId, $messageInput)
     {
         MessagingApiMassageText::create([
             'messageId' => $messageId,
@@ -132,9 +131,9 @@ class MessagingApiWebhookEventRepository implements Repository
         ]);
     }
 
-    private function setEventMessageImage($messageId, $messageInput)
+    private function createEventMessageImage($messageId, $messageInput)
     {
-        $messageImage = MessagingApiMassageImage::create([
+        MessagingApiMassageImage::create([
             'messageId' => $messageId,
             'imageSetId' => isset($messageInput['imageSet']) ? $messageInput['imageSet']['id'] : null,
             'imageSetIndex' => isset($messageInput['imageSet']) ? $messageInput['imageSet']['index'] : 0,
@@ -145,9 +144,9 @@ class MessagingApiWebhookEventRepository implements Repository
         ]);
     }
 
-    private function setEventMessageVideo($messageId, $messageInput)
+    private function createEventMessageVideo($messageId, $messageInput)
     {
-        $messageVideo = MessagingApiMassageVideo::create([
+        MessagingApiMassageVideo::create([
             'messageId' => $messageId,
             'duration' => $messageInput['duration'],
             'type' => $messageInput['contentProvider']['type'],
@@ -156,9 +155,9 @@ class MessagingApiWebhookEventRepository implements Repository
         ]);
     }
 
-    private function setEventMessageAudio($messageId, $messageInput)
+    private function createEventMessageAudio($messageId, $messageInput)
     {
-        $messageAudio = MessagingApiMassageAudio::create([
+        MessagingApiMassageAudio::create([
             'messageId' => $messageId,
             'duration' => $messageInput['duration'],
             'type' => $messageInput['contentProvider']['type'],
@@ -166,16 +165,16 @@ class MessagingApiWebhookEventRepository implements Repository
         ]);
     }
 
-    private function setEventMessageFile($messageId, $messageInput)
+    private function createEventMessageFile($messageId, $messageInput)
     {
-        $messageFile = MessagingApiMassageFile::create([
+        MessagingApiMassageFile::create([
             'messageId' => $messageId,
             'fileName' => $messageInput['fileName'],
             'fileSize' => $messageInput['fileSize'],
         ]);
     }
 
-    private function setEventMessageLocation($messageId, $messageInput)
+    private function createEventMessageLocation($messageId, $messageInput)
     {
         MessagingApiMassageLocation::create([
             'messageId' => $messageId,
@@ -186,7 +185,7 @@ class MessagingApiWebhookEventRepository implements Repository
         ]);
     }
 
-    private function setEventMessageSticker($messageId, $messageInput)
+    private function createEventMessageSticker($messageId, $messageInput)
     {
         MessagingApiMassageSticker::create([
             'messageId' => $messageId,
@@ -198,7 +197,7 @@ class MessagingApiWebhookEventRepository implements Repository
         ]);
     }
 
-    private function setEventUnsend($eventId, $eventInput)
+    private function createEventUnsend($eventId, $eventInput)
     {
         MessagingApiUnsend::create([
             'webhookEventId' => $eventId,
@@ -206,7 +205,7 @@ class MessagingApiWebhookEventRepository implements Repository
         ]);
     }
 
-    private function setEventFollow($eventId, $eventInput)
+    private function createEventFollow($eventId, $eventInput)
     {
         MessagingApiFollow::create([
             'webhookEventId' => $eventId,
@@ -214,14 +213,14 @@ class MessagingApiWebhookEventRepository implements Repository
         ]);
     }
 
-    private function setEventUnfollow($eventId, $eventInput)
+    private function createEventUnfollow($eventId, $eventInput)
     {
         MessagingApiUnfollow::create([
             'webhookEventId' => $eventId,
         ]);
     }
 
-    private function setEventJoin($eventId, $eventInput)
+    private function createEventJoin($eventId, $eventInput)
     {
         MessagingApiJoin::create([
             'webhookEventId' => $eventId,
@@ -229,14 +228,14 @@ class MessagingApiWebhookEventRepository implements Repository
         ]);
     }
 
-    private function setEventLeave($eventId, $eventInput)
+    private function createEventLeave($eventId, $eventInput)
     {
         MessagingApiLeave::create([
             'webhookEventId' => $eventId,
         ]);
     }
 
-    private function setEventMemberJoined($eventId, $eventInput)
+    private function createEventMemberJoined($eventId, $eventInput)
     {
         MessagingApiMemberJoined::create([
             'webhookEventId' => $eventId,
@@ -245,7 +244,7 @@ class MessagingApiWebhookEventRepository implements Repository
         ]);
     }
 
-    private function setEventMemberLeft($eventId, $eventInput)
+    private function createEventMemberLeft($eventId, $eventInput)
     {
         MessagingApiMemberLeft::create([
             'webhookEventId' => $eventId,
@@ -254,7 +253,7 @@ class MessagingApiWebhookEventRepository implements Repository
         ]);
     }
 
-    private function setEventPostback($eventId, $eventInput)
+    private function createEventPostback($eventId, $eventInput)
     {
         MessagingApiPostback::create([
             'webhookEventId' => $eventId,
@@ -264,7 +263,7 @@ class MessagingApiWebhookEventRepository implements Repository
         ]);
     }
 
-    private function setEventVideoPlayComplete($eventId, $eventInput)
+    private function createEventVideoPlayComplete($eventId, $eventInput)
     {
         MessagingApiVideoPlayComplete::create([
             'webhookEventId' => $eventId,
@@ -273,7 +272,7 @@ class MessagingApiWebhookEventRepository implements Repository
         ]);
     }
 
-    private function setEventBeacon($eventId, $eventInput)
+    private function createEventBeacon($eventId, $eventInput)
     {
         MessagingApiBeacon::create([
             'webhookEventId' => $eventId,
@@ -284,7 +283,7 @@ class MessagingApiWebhookEventRepository implements Repository
         ]);
     }
 
-    private function setEventAccountLink($eventId, $eventInput)
+    private function createEventAccountLink($eventId, $eventInput)
     {
         MessagingApiAccountLink::create([
             'webhookEventId' => $eventId,
@@ -293,18 +292,18 @@ class MessagingApiWebhookEventRepository implements Repository
         ]);
     }
 
-    private function setEventThings($eventId, $eventInput)
+    private function createEventThings($eventId, $eventInput)
     {
         if ($eventInput['things']['type'] === 'link') {
-            $this->setEventThingsLink($eventId, $eventInput);
+            $this->createEventThingsLink($eventId, $eventInput);
         } elseif ($eventInput['things']['type'] === 'unlink') {
-            $this->setEventThingsUnlink($eventId, $eventInput);
+            $this->createEventThingsUnlink($eventId, $eventInput);
         } elseif ($eventInput['things']['type'] === 'scenarioResult') {
-            $this->setEventThingsScenarioResult($eventId, $eventInput);
+            $this->createEventThingsScenarioResult($eventId, $eventInput);
         }
     }
 
-    private function setEventThingsLink($eventId, $eventInput)
+    private function createEventThingsLink($eventId, $eventInput)
     {
         MessagingApiThingsLink::create([
             'webhookEventId' => $eventId,
@@ -313,7 +312,7 @@ class MessagingApiWebhookEventRepository implements Repository
         ]);
     }
 
-    private function setEventThingsUnlink($eventId, $eventInput)
+    private function createEventThingsUnlink($eventId, $eventInput)
     {
         MessagingApiThingsUnlink::create([
             'webhookEventId' => $eventId,
@@ -322,7 +321,7 @@ class MessagingApiWebhookEventRepository implements Repository
         ]);
     }
 
-    private function setEventThingsScenarioResult($eventId, $eventInput)
+    private function createEventThingsScenarioResult($eventId, $eventInput)
     {
         MessagingApiThingsScenarioResult::create([
             'webhookEventId' => $eventId,

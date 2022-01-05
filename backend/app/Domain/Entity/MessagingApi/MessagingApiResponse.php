@@ -4,6 +4,7 @@ namespace App\Domain\Entity\MessagingApi;
 use App\Domain\Entity\BotApiRequest;
 use App\Domain\Entity\BotApiResponse;
 use App\Infrastructures\BotApi\MessagingApi;
+use App\UseCases\UseCase;
 use App\UseCases\UseCaseKernel;
 use ReflectionException;
 
@@ -18,30 +19,22 @@ class MessagingApiResponse implements BotApiResponse
     /**
      * @throws ReflectionException
      */
-    public function actionRouter(BotApiRequest $request)
+    public function useCaseRouter(BotApiRequest $request) : void
     {
-        foreach ($this->kernel->getActions(new MessagingApi()) as $action) {
-            if ($this->isVerifiedEvent($action, $request) === true) {
-                $this->actionExec($action);
+        foreach ($this->kernel->getUseCases(new MessagingApi()) as $useCase) {
+            if ($this->isVerifiedRequest($useCase, $request) === true) {
+                $this->useCaseExec($useCase);
             }
         }
     }
 
-    /**
-     * @param object $action
-     * @param BotApiRequest $request
-     * @return mixed
-     */
-    private function isVerifiedEvent(object $action, BotApiRequest $request): mixed
+    public function isVerifiedRequest(UseCase $useCase, BotApiRequest $request): bool
     {
-        return $action->verify($request);
+        return $useCase->verify($request);
     }
 
-    /**
-     * @param object $action
-     */
-    private function actionExec(object $action)
+    public function useCaseExec(UseCase $useCase)
     {
-        $action->exec($action);
+        $useCase->exec();
     }
 }

@@ -18,11 +18,15 @@ class MessagingApiController extends Controller
     }
 
     /**
+     * MessagingApi webhook
+     * Requestをデータストアに登録
+     * Requestに応じてUseCaseを実行する
      * @throws ReflectionException
      */
     public function webhook(Request $request)
     {
+        $this->repository->storeRequest($request->input());
         $requestEntity = $this->repository->getRequestEntity($request->input());
-        $this->response->actionRouter($requestEntity);
+        $this->response->useCaseRouter($requestEntity);
     }
 }

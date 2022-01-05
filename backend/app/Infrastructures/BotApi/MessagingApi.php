@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Log;
 
 class MessagingApi implements BotApi
 {
-    public function getDirName(): string
+    public function getUseCaseDirName(): string
     {
         return "MessagingApi";
     }
