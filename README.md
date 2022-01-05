@@ -1,57 +1,50 @@
-# docker-laravel 🐳
+# LaraBot Framework
 
-<p align="center">
-    <img src="https://user-images.githubusercontent.com/35098175/145682384-0f531ede-96e0-44c3-a35e-32494bd9af42.png" alt="docker-laravel">
-</p>
-<p align="center">
-    <img src="https://github.com/ucan-lab/docker-laravel/actions/workflows/laravel-create-project.yml/badge.svg" alt="Test laravel-create-project.yml">
-    <img src="https://github.com/ucan-lab/docker-laravel/actions/workflows/laravel-git-clone.yml/badge.svg" alt="Test laravel-git-clone.yml">
-    <img src="https://img.shields.io/github/license/ucan-lab/docker-laravel" alt="License">
-</p>
+## 説明
+チャットbotアプリケーションを構築するためのLaravel製フレームワークです。
 
-## Introduction
+### ユースケース
+- チャットbotの返答内容をPHPを使ってカスタマイズする
+- Laravel タスクスケジュールで定期的にLINEに通知をする
+- IoT機器から取得した情報をLINEに通知をする
 
-Build a simple laravel development environment with docker-compose. Compatible with Windows(WSL2), macOS(M1) and Linux.
+## 環境
 
-## Usage
-
-1. Click [Use this template](https://github.com/ucan-lab/docker-laravel/generate)
-2. Git clone & change directory
-3. Execute the following command
-
-```bash
-$ make create-project # Install the latest Laravel project
-$ make install-recommend-packages # Optional
+### プロジェクトのビルド
+```shell
+git clone https://github.com/hiyorineko/linebot.git
+cd linebot
+make init
 ```
 
-http://localhost
-
-## Tips
-
-- Read this [Makefile](https://github.com/ucan-lab/docker-laravel/blob/main/Makefile).
-- Read this [Wiki](https://github.com/ucan-lab/docker-laravel/wiki).
-
-## Container structures
-
-```bash
-├── app
-├── web
-└── db
+### 起動
+```shell
+make up
 ```
 
-### app container
+### 環境設定
 
-- Base image
-  - [php](https://hub.docker.com/_/php):8.1-fpm-bullseye
-  - [composer](https://hub.docker.com/_/composer):2.1
+#### Messaging Api
 
-### web container
+LINE Developersコンソールで取得したチャネルアクセストークン・チャネルシークレットを ```backend/.env```に設定してください。
+```shell
+MESSAGING_API_CHANNEL_ACCESS_TOKEN='{your channel access token}'
+MESSAGING_API_CHANNEL_SECRET='{your channel access secret}'
+MESSAGING_API_SENDER_NAME='{your sender name}'
+MESSAGING_API_SENDER_ICON_URL='{your sender icon url}'
+```
+[Messaging APIを始めよう](https://developers.line.biz/ja/docs/messaging-api/getting-started/)
 
-- Base image
-  - [nginx](https://hub.docker.com/_/nginx):1.20-alpine
-  - [node](https://hub.docker.com/_/node):16-alpine
+その後、LINE DevelopersコンソールのWebhook URLに以下を設定してください。
+```https://{Your Server Domain}/api/messagingApi```
 
-### db container
 
-- Base image
-  - [mysql/mysql-server](https://hub.docker.com/r/mysql/mysql-server):8.0
+## チャットBotの処理の拡張
+
+以下の手順でチャットBotの処理を拡張することができます。
+
+1. ```backend/app/UseCases/{BotApi}```に、```***UseCase.php```を作成
+2. ```***UseCase::verify()```に実行条件の実装
+3. ```***UseCase::verify()```に実行内容の実装
+
+必要に応じて```make composer dump-autoload```
