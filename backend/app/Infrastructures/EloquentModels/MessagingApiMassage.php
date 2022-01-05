@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property MessagingApiWebhookEvent $messaging_api_webhook_event
  * @property MessagingApiMassageAudio $messaging_api_massage_audio
  * @property MessagingApiMassageFile $messaging_api_massage_file
- * @property Collection|MessagingApiMassageImage[] $messaging_api_massage_images
+ * @property MessagingApiMassageImage $messaging_api_massage_images
  * @property MessagingApiMassageLocation $messaging_api_massage_location
  * @property MessagingApiMassageSticker $messaging_api_massage_stamp
  * @property MessagingApiMassageText $messaging_api_massage_text
@@ -56,9 +56,9 @@ class MessagingApiMassage extends Model
 		return $this->hasOne(MessagingApiMassageFile::class, 'message_id');
 	}
 
-	public function massage_images()
+	public function massage_image()
 	{
-		return $this->hasMany(MessagingApiMassageImage::class, 'message_id');
+		return $this->hasOne(MessagingApiMassageImage::class, 'message_id');
 	}
 
 	public function massage_location()
