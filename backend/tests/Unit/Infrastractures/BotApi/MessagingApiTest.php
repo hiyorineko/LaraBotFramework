@@ -3,6 +3,7 @@
 namespace Tests\Unit\Infrastractures\BotApi;
 
 use App\Infrastructures\BotApi\MessagingApi;
+use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 class MessagingApiTest extends TestCase
@@ -42,8 +43,8 @@ class MessagingApiTest extends TestCase
     public function test_createSender()
     {
         $expected = array(
-            'name' => 'sender',
-            'iconUrl' => 'iconurl',
+            'name' => Config::get('messagingApi.sender_name'),
+            'iconUrl' => Config::get('messagingApi.sender_icon_url'),
         );
         $result = $this->messagingApi->createSender();
         $this->assertSame(array_keys($expected), array_keys($result));
